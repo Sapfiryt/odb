@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+{{>header}}
+{{#errors}}
+    <div><label style="color: red">{{emailError}}</label></div>
+{{/errors}}
+    <form id="user" name="user" action="/registration" method="POST">
+        <input name="{{_csrf.parameterName}}" type="hidden" value="{{_csrf.token}}"/>
+        <div>
+            <label> Email :
+                <input type="email" id="email" name="email" value=""/>
+            </label>
+            {{#errors}}
+            <label style="color: red">
+                {{email}}
+            </label>
+            {{/errors}}
+        </div>
+        <div>
+            <label> First Name:
+                <input type="text" id="firstName" name="firstName" value=""/>
+            </label>
+            {{#errors}}
+            <label style="color: red">
+                {{firstName}}
+            </label>
+            {{/errors}}
+        </div>
+        <div>
+            <label> Last Name:
+                <input type="text" id="lastName" name="lastName" value=""/>
+            </label>
+            {{#errors}}
+            <label style="color: red">
+                {{lastName}}
+            </label>
+            {{/errors}}
+        </div>
+        <div>
+            <label> Password:
+                <input type="password" id="password" name="password" value="" />
+            </label>
+            {{#errors}}
+            <label style="color: red">
+                {{password}}
+            </label>
+            {{/errors}}
+        </div>
+        <div>
+            <label> Repeat password:
+                <input type="password" id="matchingPassword" name="matchingPassword" value="" />
+            </label>
+            {{#errors}}
+            <label style="color: red">
+                {{passwordNotMatchedErr}}
+            </label>
+            {{/errors}}
+        </div>
+        <div><input type="submit" value="Sign Up"/></div>
+    </form>
+</body>
+</html>

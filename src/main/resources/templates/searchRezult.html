@@ -1,0 +1,15 @@
+<div style="background-color: aquamarine">
+    <ul>
+        {{#reconstructions}}
+        <li>
+            <div>
+                <label>{{name}}</label>
+                <h6>{{about}}</h6>
+                <form action="./reconstructions/{{id}}">
+                    <input type="submit" value="Ditails" />
+                </form>
+            </div>
+        </li>
+        {{/reconstructions}}
+    </ul>
+</div>

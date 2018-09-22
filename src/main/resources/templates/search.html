@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+</head>
+<body>
+    {{>header}}
+    <div style="background-color: darkgray">
+        <form name="search"  action="/search" method="get">
+            <label>
+                Cost: <input name="cost" type="text"/>
+            </label>
+            <label>
+                Not full: <input name="not_full" type="checkbox"/>
+            </label>
+            <label>
+                Befor: <input name="befor" type="date"/>
+            </label>
+            <label>
+                After: <input name="after" type="date"/>
+            </label>
+            <button type="submit">Search!</button>
+        </form>
+    </div>
+    {{>searchRezult}}
+</body>
+</html>
