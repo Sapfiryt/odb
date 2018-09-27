@@ -32,6 +32,11 @@ public class Location {
     @Column(name = "photo")
     private byte[] photo;
 
+    @Transient
+    private String img;
+
 
     public Location(){}
+
+
 }

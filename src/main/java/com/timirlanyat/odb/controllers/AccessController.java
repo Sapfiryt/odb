@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +41,7 @@ public class AccessController {
     }
 
     @RequestMapping(value="/registration", method = {RequestMethod.POST})
-    public ModelAndView check(@ModelAttribute("user") @Valid UserDto dto,
+    public ModelAndView check(@ModelAttribute("newUser") @Valid UserDto dto,
                               BindingResult result, WebRequest request, Errors errs)
     {
 
@@ -60,7 +62,7 @@ public class AccessController {
                     ((Map<String,String>)model.get("errors"))
                             .put("passwordNotMatchedErr",err.getDefaultMessage());
 
-            model.put("user",dto);
+            model.put("userNew",dto);
             return new ModelAndView("registration", model);
         }
 
@@ -75,11 +77,11 @@ public class AccessController {
                     .put("emailError","Email already exists!");
         }
         if (!((Map<String,String>)model.get("errors")).isEmpty()) {
-            model.put("user",dto);
+            model.put("newUser",dto);
             return new ModelAndView("registration", model);
         }
         else {
-            return new ModelAndView("successRegister", "user", dto);
+            return new ModelAndView("redirect:/", "", null);
         }
     }
 
@@ -88,18 +90,22 @@ public class AccessController {
 
         UserDto user= new UserDto();
         Map<String, Object> model = new HashMap<>();
-        model.put("user",user);
+        model.put("newUser",user);
+        model.put("notLogined",true);
 
-        ModelAndView mav=new ModelAndView("registration",model);
-        return mav;
+        return new ModelAndView("registration",model);
     }
 
 
     @RequestMapping(value="/login", method = {RequestMethod.GET, RequestMethod.POST})
-    public String login() {
+    public ModelAndView login(HttpServletRequest request, Principal principal) {
 
+        if(principal != null){
+            String referrer = request.getHeader("Referer");
+            String path = referrer.substring(referrer.lastIndexOf("/"),referrer.length());
+            return new ModelAndView("redirect:"+path,new HashMap<>());
+        }
 
-
-        return "login";
+        return new ModelAndView("login","notLogined",true);
     }
 }

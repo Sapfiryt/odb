@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{reconstruction.name}}</title>
+</head>
+<body>
+    {{>header}}
+    {{#reconstruction}}
+        <h1>{{name}}</h1>
+        <div><h2>Status: <p style="color: firebrick;">{{status}}</p> {{minParticipant}}/<p style="width: 25%">{{numberOfParticipant}}</p>/{{maxParticipant}}</h2></div>
+    {{/reconstruction}}
+        <div>
+            {{^joined}}
+            <form action="/reconstructions/{{reconstruction.id}}/join" method="get">
+                <button style="background-color: green" type="submit">Join!</button>
+            </form>
+            {{/joined}}
+        </div>
+        {{#reconstruction}}
+        <h3>{{year}}</h3>
+        <p>{{about}}</p>
+        <label>Cost:</label>
+        <h3>{{cost}}</h3>
+        <div>
+            <img src="data:image/jpeg;base64,{{location.img}}">
+        </div>
+        <div>
+            <label>Address:</label>
+            <h3>{{location.country}}, {{location.address}}</h3>
+        </div>
+        <div>
+            <label>Date:</label>
+            <h3>{{dateOf}}</h3>
+        </div>
+    {{/reconstruction}}
+    {{#managed}}
+    <form action="/participants/{{reconstruction.id}}" method="get">
+        <button style="background-color: gray"  type="submit">List of Participant</button>
+    </form>
+    {{/managed}}
+</body>
+</html>

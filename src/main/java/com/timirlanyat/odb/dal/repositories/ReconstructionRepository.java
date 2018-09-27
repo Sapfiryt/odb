@@ -12,7 +12,8 @@ import java.time.LocalDate;
 public interface ReconstructionRepository extends CrudRepository<Reconstruction,Integer> {
 
     @Query(value = "select * from (select * from reconstructions rr " +
-            "where rr.number_of_participant < rr.max_participant or(TRUE and not :notFull)) " +
+            "where (select count(rp.reconstructions_id) from reconstructions_participants rp where rr.id=rp.reconstructions_id) < rr.max_participant " +
+            "or(TRUE and not :notFull)) " +
             "r where r.cost <= :cost and r.date_of <= :befor and r.date_of >= :after",
             nativeQuery = true)
     Iterable<Reconstruction> findAllByParams(@Param("cost") Long cost,

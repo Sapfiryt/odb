@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Participants</title>
+</head>
+<body>
+    {{>header}}
+    {{#participants}}
+        <div>
+            {{#user}}
+            <label>{{lastName}} {{firstName}}</label>
+            <label>{{email}} </label>
+            <label>{{phoneNumber}} </label>
+            {{/user}}
+        </div>
+    {{/participants}}
+</body>
+</html>

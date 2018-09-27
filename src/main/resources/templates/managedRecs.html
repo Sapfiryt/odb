@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reconstructions</title>
+</head>
+<body>
+    {{>header}}
+    {{#reconstructions}}
+        <div>
+            <label>{{name}}</label>
+            <label>{{about}}</label>
+            <form action="/reconstructions/{{id}}">
+                <button style="background-color: yellow"  type="submit">Ditails</button>
+            </form>
+            <form action="/participants/{{id}}" >
+                <button style="background-color: lightgray"  type="submit">List of Participant</button>
+            </form>
+        </div>
+    {{/reconstructions}}
+</body>
+</html>

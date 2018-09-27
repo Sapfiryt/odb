@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.timirlanyat.odb.controllers","com.timirlanyat.odb.security",
-		"com.timirlanyat.odb.services","com.timirlanyat.odb.annotation","com.timirlanyat.odb.util.validators"})
 @EnableAsync
 public class OdbApplication {
 
@@ -60,4 +58,7 @@ public class OdbApplication {
 		authProvider.setPasswordEncoder(passwordEncoder());
 		return authProvider;
 	}
+
+
+
 }

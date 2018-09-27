@@ -16,27 +16,29 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.*;
 
 @Controller
 public class HomeController {
 
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value={"/","/home"}, method = RequestMethod.GET)
-    public String baseMaV() {
+    public ModelAndView baseMaV(Principal principal) {
 
-        return "home";
+        Map<String,Object> model= null;
+
+        if(principal == null) {
+            model = new HashMap<>();
+            model.put("notLogined", true);
+
+        }else{
+            model=userService.getUserParameters(principal);
+        }
+        return new ModelAndView("home",model);
     }
-
-
-
-
-    @RequestMapping(value="/hello", method = RequestMethod.GET)
-    public String hello() {
-
-        return "hello";
-    }
-
 
 
 }

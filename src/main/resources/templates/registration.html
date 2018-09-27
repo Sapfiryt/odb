@@ -10,7 +10,7 @@
 {{#errors}}
     <div><label style="color: red">{{emailError}}</label></div>
 {{/errors}}
-    <form id="user" name="user" action="/registration" method="POST">
+    <form id="newUser" name="newUser" action="/registration" method="POST">
         <input name="{{_csrf.parameterName}}" type="hidden" value="{{_csrf.token}}"/>
         <div>
             <label> Email :
@@ -43,6 +43,16 @@
             {{/errors}}
         </div>
         <div>
+        <label> Phone number:
+            <input type="text" id="phoneNumber" name="phoneNumber" value=""/>
+        </label>
+        {{#errors}}
+        <label style="color: red">
+            {{phoneNumber}}
+        </label>
+        {{/errors}}
+        </div>
+        <div>
             <label> Password:
                 <input type="password" id="password" name="password" value="" />
             </label>
@@ -62,7 +72,28 @@
             </label>
             {{/errors}}
         </div>
+        <div>
+            <label> Organizer:
+                <input type="checkbox" onchange="orgChange()" id="organizer" name="organizer"  />
+            </label>
+            {{#errors}}
+            <label style="color: red">
+                {{organizer}}
+            </label>
+            {{/errors}}
+        </div>
+        <div id="agreementField" style="display: none">
+            <label> Agreemnt number:
+                <input type="text" id="agreement" name="agreement" value="" />
+            </label>
+            {{#errors}}
+            <label style="color: red">
+                {{agreement}}
+            </label>
+            {{/errors}}
+        </div>
         <div><input type="submit" value="Sign Up"/></div>
     </form>
+    <script type="text/javascript" src="/js/field.js"></script>
 </body>
 </html>

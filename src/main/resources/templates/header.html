@@ -1,6 +1,39 @@
 <header style="background-color: green; padding: 0; margin: 0;" >
-    {{>logout}}
-    <form id="logout" action="/search" method="get">
-        <button type="submit" class="btn btn-primary">Search</button>
-    </form>
+    <div>
+        <form id="main" action="/" method="get">
+            <button type="submit" class="btn btn-primary">Main</button>
+        </form>
+    </div>
+    {{#organizer}}
+    <div>
+        <form id="reconstructions" action="/{{id}}/reconstructions" method="get">
+            <button type="submit" class="btn btn-primary">My reconstrutions</button>
+        </form>
+    </div>
+    <div>
+        <form id="create" action="/{{id}}/create" method="get">
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+    </div>
+    {{/organizer}}
+    {{#user}}
+    <div>
+        <form id="search" action="/search" method="get">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+    <div>
+        <form id="logout" action="/logout" method="post">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+            <button type="submit" class="btn btn-primary">Logout</button>
+        </form>
+    </div>
+    {{/user}}
+    {{^user}}
+    <div>
+        <form id="login" action="/login" method="get">
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </div>
+    {{/user}}
 </header>

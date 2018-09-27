@@ -40,9 +40,6 @@ public class Reconstruction {
     @Column(name = "about")
     private String about;
 
-    @Column(name = "number_of_participant")
-    private Integer numberOfParticipant;
-
     @Column(name = "min_participant")
     private Integer minParticipant;
 

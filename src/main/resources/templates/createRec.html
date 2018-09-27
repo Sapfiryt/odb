@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create</title>
+
+    <script type="text/javascript" src="/js/field.js"></script>
+</head>
+<body>
+    {{>header}}
+    <div>
+        <form id="creationForm" name="creationForm" action="/{{organizer.id}}/create" method="post">
+            <input name="{{_csrf.parameterName}}" type="hidden" value="{{_csrf.token}}"/>
+            <div>
+                <label>
+                    Name:
+                    <input name="name" type="text"/>
+                </label>
+                {{#errors}}
+                <label style="color: red">
+                    {{name}}
+                </label>
+                {{/errors}}
+            </div>
+            <div>
+                <label>
+                    About:
+                    <input name="about" type="text"/>
+                </label>
+                {{#errors}}
+                <label style="color: red">
+                    {{about}}
+                </label>
+                {{/errors}}
+            </div>
+            <div>
+                <label>
+                    Cost:
+                    <input name="cost" type="number"/>
+                    $
+                </label>
+                {{#errors}}
+                <label style="color: red">
+                    {{cost}}
+                </label>
+                {{/errors}}
+            </div>
+            <div>
+                <label>
+                    Date:
+                    <input name="dateOf" type="datetime-local"/>
+                </label>
+                {{#errors}}
+                <label style="color: red">
+                    {{dateOf}}
+                </label>
+                {{/errors}}
+            </div>
+            <div>
+                <label>
+                    Max Participants:
+                    <input name="maxParticipants" type="number"/>
+                </label>
+                {{#errors}}
+                <label style="color: red">
+                    {{maxParticipants}}
+                </label>
+                {{/errors}}
+            </div>
+            <div>
+                <label>
+                    Min Participants:
+                    <input name="minParticipants" type="number"/>
+                </label>
+                {{#errors}}
+                <label style="color: red">
+                    {{minParticipants}}
+                </label>
+                {{/errors}}
+            </div>
+            <div>
+                <label>
+                    Year:
+                    <input name="year" type="date"/>
+                </label>
+                {{#errors}}
+                <label style="color: red">
+                    {{year}}
+                </label>
+                {{/errors}}
+            </div>
+            <div>
+            <label>
+                Location:
+                <select id="locationSelector" name="locationId" onchange="showLocation()" >
+                    {{#locations}}
+                    <option value="{{id}}">{{name}}</option>
+                    {{/locations}}
+                </select>
+                {{#errors}}
+                <label style="color: red">
+                    {{locationError}}
+                </label>
+                {{/errors}}
+            </label>
+            </div>
+            {{#locations}}
+            <div id="location{{id}}" style="display: none">
+                <h3>{{name}}</h3>
+                <div>
+                    <img src="data:image/jpeg;base64,{{img}}">
+                </div>
+                <div>
+                    <label>Address:</label>
+                    <h3>{{country}}, {{address}}</h3>
+                </div>
+            </div>
+            {{/locations}}
+            <script>showLocation()</script>
+            <input type="submit" value="Create"/>
+        </form>
+    </div>
+</body>
+</html>
