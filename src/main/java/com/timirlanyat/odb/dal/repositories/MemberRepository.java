@@ -1,5 +1,6 @@
 package com.timirlanyat.odb.dal.repositories;
 
+import com.timirlanyat.odb.model.Member;
 import com.timirlanyat.odb.model.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -7,9 +8,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends CrudRepository<User,Integer> {
+public interface MemberRepository extends CrudRepository<Member,Integer> {
 
-    @Query(value = "select u from User u where lower(u.email) = lower(:email)")
-    User findByEmail(@Param("email") String email)  ;
+    @Query(value = "select u from Member u where lower(u.email) = lower(:email)")
+    User findByEmail(@Param("email") String email);
 
 }

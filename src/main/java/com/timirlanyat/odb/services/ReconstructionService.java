@@ -22,7 +22,7 @@ public class ReconstructionService {
     private ReconstructionRepository reconstructionRepository;
 
     @Transactional
-    public Reconstruction createNewReconstrution(ReconstructionDto dto) throws InvalidAttributeValueException {
+    public Reconstruction createNewReconstrution(ReconstructionDto dto, Organizer org) throws InvalidAttributeValueException {
 
 
         Reconstruction rec = new Reconstruction();
@@ -35,6 +35,7 @@ public class ReconstructionService {
         rec.setName(dto.getName());
         rec.setYear(dto.getYear());
         rec.setStatus("open");
+        rec.setOrganizer(org);
 
         Optional<Location> found =locationRepository.findById(dto.getLocationId());
 

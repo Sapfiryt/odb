@@ -28,6 +28,8 @@ public class HomeController {
     @RequestMapping(value={"/","/home"}, method = RequestMethod.GET)
     public ModelAndView baseMaV(Principal principal) {
 
+
+
         Map<String,Object> model= null;
 
         if(principal == null) {

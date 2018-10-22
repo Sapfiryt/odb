@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -14,79 +15,34 @@ import java.util.Set;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class Organizer {
+public class Organizer extends Member {
 
-    @Id
-    @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
-    private Integer id;
 
     @Column(name = "agreement")
     private String numAgreement;
 
-    @OneToOne
-    @JoinColumn(name="user_id")
-    private User user;
+    @Column(name = "approved")
+    private Boolean approved;
 
     @OneToMany(
-            cascade =
-            {CascadeType.ALL},
-            fetch = FetchType.LAZY
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "organizer"
     )
-    private Set<Reconstruction> reconstructions= new HashSet<Reconstruction>();
+    private Set<Reconstruction> managedReconstructions= new HashSet<>();
 
     public Organizer(){}
 
-    public Organizer(User user){
-        this.user=user;
-        this.setEmail(user.getEmail());
-        this.setFirstName(user.getFirstName());
-        this.setLastName(user.getLastName());
-        this.setPhoneNumber(user.getPhoneNumber());
+
+    public void addReconstruction(Reconstruction reconstruction) {
+        managedReconstructions.add(reconstruction);
+        reconstruction.setOrganizer(this);
+    }
+
+    public void removeReconstruction(Reconstruction reconstruction) {
+        managedReconstructions.remove(reconstruction);
+        reconstruction.setOrganizer(null);
     }
 
 
-
-    public Organizer setEmail(String email){
-        this.user.setEmail(email);
-        return this;
-    }
-
-    public Organizer setFirstName(String firstName){
-        this.user.setFirstName(firstName);
-        return this;
-
-    }
-
-    public Organizer setLastName(String lastName){
-        this.user.setLastName(lastName);
-        return this;
-    }
-
-    public Organizer setPhoneNumber(String phoneNumber){
-        this.user.setPhoneNumber(phoneNumber);
-        return this;
-    }
-
-    public Organizer addReconstruction(Reconstruction rec){
-        this.reconstructions.add(rec);
-        return this;
-    }
-
-
-    public String getPhoneNumber(){
-        return this.user.getPhoneNumber();
-    }
-
-    public String getFirstName(){
-        return this.user.getFirstName();
-    }
-
-    public String getLastName(){
-        return this.user.getLastName();
-    }
-
-    public String getEmail(){
-        return this.user.getEmail();
-    }
 }

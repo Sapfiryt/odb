@@ -40,7 +40,7 @@ public class Check {
             fetch = FetchType.LAZY
     )
     @JoinColumn(name="user_id")
-    private User user;
+    private Member member;
 
     public Check(){}
 }

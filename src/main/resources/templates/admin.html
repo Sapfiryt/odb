@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+</head>
+<body>
+    {{>header}}
+    {{#notApproved}}
+    <div>
+        {{#.}}
+        <label>{{lastName}} {{firstName}}</label>
+        <label>{{email}} </label>
+        <label>{{phoneNumber}} </label>
+        <label>{{numAgreement}}</label>
+        <form id="creationForm" name="creationForm" action="/admin/{{id}}" method="post">
+            <input name="{{_csrf.parameterName}}" type="hidden" value="{{_csrf.token}}"/>
+            <input type="submit" value="Approve"/>
+        </form>
+        {{/.}}
+    </div>
+    {{/notApproved}}
+</body>
+</html>

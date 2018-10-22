@@ -1,59 +1,49 @@
 package com.timirlanyat.odb.model;
 
-import com.timirlanyat.odb.annotation.ValidEmail;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
-
-
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-@Entity
-@Table(name="users")
-@Getter
-@Setter
-@Accessors(chain = true)
-public class User {
+public interface User {
+    List<String> getRoles();
 
-    @Id
-    @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
-    private Integer id;
+    User setId(Integer id);
 
+    User setEmail(String email);
 
-    @Column(name="email",unique = true)
-    private String email;
+    User setFirstName(String firstName);
 
-    @Column(name="first_name")
-    private String firstName;
+    User setLastName(String lastName);
 
-    @Column(name="last_name")
-    private String lastName;
+    User setPhoneNumber(String phoneNumber);
 
-    @Column(name="phone_number")
-    private String phoneNumber;
+    User setSex(Sex sex);
 
-    @ManyToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy="participants"
-    )
-    private Set<Reconstruction> reconstructions = new HashSet<>();
+    User setDateOfBirth(java.time.LocalDate dateOfBirth);
 
-    @ManyToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy="users"
-    )
-    private Set<Attribute> attributes = new HashSet<>();
+    User setReconstructions(java.util.Set<Reconstruction> reconstructions);
 
-    @Transient
-    private List<String> roles = new ArrayList<>();
+    User setAttributes(java.util.Set<Attribute> attributes);
 
+    User setAdmin(Boolean admin);
 
-    public User(){}
+    User setRoles(List<String> roles);
+
+    Integer getId();
+
+    String getEmail();
+
+    String getFirstName();
+
+    String getLastName();
+
+    String getPhoneNumber();
+
+    Sex getSex();
+
+    java.time.LocalDate getDateOfBirth();
+
+    java.util.Set<Reconstruction> getReconstructions();
+
+    java.util.Set<Attribute> getAttributes();
+
+    Boolean getAdmin();
 }

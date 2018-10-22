@@ -2,12 +2,9 @@ package com.timirlanyat.odb.services;
 
 import com.timirlanyat.odb.dal.repositories.HashRepository;
 import com.timirlanyat.odb.dal.repositories.OrganizerRepository;
-import com.timirlanyat.odb.dal.repositories.UserRepository;
+import com.timirlanyat.odb.dal.repositories.MemberRepository;
 import com.timirlanyat.odb.exceptions.EmailExistsException;
-import com.timirlanyat.odb.model.Hash;
-import com.timirlanyat.odb.model.Organizer;
-import com.timirlanyat.odb.model.User;
-import com.timirlanyat.odb.model.UserDto;
+import com.timirlanyat.odb.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,7 +18,7 @@ import java.util.Map;
 @Service
 public class UserService {
     @Autowired
-    private UserRepository userRepository;
+    private MemberRepository memberRepository;
     @Autowired
     private OrganizerRepository organizerRepository;
     @Autowired
@@ -37,24 +34,36 @@ public class UserService {
             throw new EmailExistsException(accountDto.getEmail());
         }
 
-        User user = new User();
-        user.setFirstName(accountDto.getFirstName());
-        user.setLastName(accountDto.getLastName());
-        user.setEmail(accountDto.getEmail());
-        user.setPhoneNumber(accountDto.getPhoneNumber());
+        User user;
 
-        if (accountDto.getOrganizer()!=null) {
-            user.setRoles(Arrays.asList("REC_ORG","REC_USER"));
-            Organizer org = new Organizer(user);
-            org.setNumAgreement(accountDto.getAgreement());
-            user = organizerRepository.save(org).getUser();
+        if (accountDto.getOrganizer()==null) {
 
-        } else {
+            user = new Member();
+            user.setFirstName(accountDto.getFirstName());
+            user.setLastName(accountDto.getLastName());
+            user.setEmail(accountDto.getEmail());
+            user.setPhoneNumber(accountDto.getPhoneNumber());
+            user.setDateOfBirth(accountDto.getDateOfBirth());
+            user.setSex(accountDto.getSex());
+            user.setAdmin(false);
             user.setRoles(Arrays.asList("REC_USER"));
-            user = userRepository.save(user);
+            user = memberRepository.save((Member)user);
+        }else{
+            Organizer org = new Organizer();
+            org.setFirstName(accountDto.getFirstName());
+            org.setLastName(accountDto.getLastName());
+            org.setEmail(accountDto.getEmail());
+            org.setPhoneNumber(accountDto.getPhoneNumber());
+            org.setDateOfBirth(accountDto.getDateOfBirth());
+            org.setSex(accountDto.getSex());
+            org.setAdmin(false);
+            org.setRoles(Arrays.asList("REC_MEMBER"));
+            org.setNumAgreement(accountDto.getAgreement());
+            org.setApproved(false);
+            user = (Member)organizerRepository.save(org);
         }
 
-        hashRepo.save(new Hash().setUser(user)
+        hashRepo.save(new Hash().setUser((Member)user)
                 .setHash(passwordEncoder.encode(accountDto.getPassword())));
 
         return user;
@@ -65,22 +74,21 @@ public class UserService {
 
         Map<String,Object> model= new HashMap<>();
          
-        User user = userRepository.findByEmail(principal.getName());
-        Organizer org = organizerRepository.findByUser(user);
+        User user = memberRepository.findByEmail(principal.getName());
+        organizerRepository.findById(user.getId()).ifPresent( organizer -> {
+            if(organizer.getApproved())
+                model.put("organizer",organizer);
+        });
 
         if(user!=null)
             model.put("user",user);
-
-
-        if(org!=null)
-            model.put("organizer",org);
 
 
         return model;
     }
 
     private boolean emailExist(String email) {
-        User user = userRepository.findByEmail(email);
+        User user = memberRepository.findByEmail(email);
         if (user != null) {
             return true;
         }

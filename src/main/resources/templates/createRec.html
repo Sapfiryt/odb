@@ -14,7 +14,7 @@
             <div>
                 <label>
                     Name:
-                    <input name="name" type="text"/>
+                    <input name="name" type="text" value="{{creationForm.name}}"/>
                 </label>
                 {{#errors}}
                 <label style="color: red">
@@ -25,7 +25,7 @@
             <div>
                 <label>
                     About:
-                    <input name="about" type="text"/>
+                    <input name="about" type="text" value="{{creationForm.about}}"/>
                 </label>
                 {{#errors}}
                 <label style="color: red">
@@ -36,7 +36,7 @@
             <div>
                 <label>
                     Cost:
-                    <input name="cost" type="number"/>
+                    <input name="cost" type="number" value="{{creationForm.cost}}"/>
                     $
                 </label>
                 {{#errors}}
@@ -48,7 +48,7 @@
             <div>
                 <label>
                     Date:
-                    <input name="dateOf" type="datetime-local"/>
+                    <input name="dateOf" type="datetime-local" value="{{creationForm.dateOf}}"/>
                 </label>
                 {{#errors}}
                 <label style="color: red">
@@ -59,7 +59,7 @@
             <div>
                 <label>
                     Max Participants:
-                    <input name="maxParticipants" type="number"/>
+                    <input name="maxParticipants" type="number" value="{{creationForm.maxParticipants}}"/>
                 </label>
                 {{#errors}}
                 <label style="color: red">
@@ -70,7 +70,7 @@
             <div>
                 <label>
                     Min Participants:
-                    <input name="minParticipants" type="number"/>
+                    <input name="minParticipants" type="number" value="{{creationForm.minParticipants}}"/>
                 </label>
                 {{#errors}}
                 <label style="color: red">
@@ -81,7 +81,7 @@
             <div>
                 <label>
                     Year:
-                    <input name="year" type="date"/>
+                    <input name="year" type="date" value="{{creationForm.year}}"/>
                 </label>
                 {{#errors}}
                 <label style="color: red">

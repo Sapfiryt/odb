@@ -32,11 +32,11 @@ public class Attribute {
     @Column(name = "cost")
     private Float cost;
 
-    @Column(name = "about")
-    private Integer about;
+    @Column(name = "description")
+    private Integer description;
 
     @ManyToMany
-    private Set<User> users = new HashSet<>();
+    private Set<Member> members = new HashSet<>();
 
     public Attribute(){}
 }

@@ -2,7 +2,8 @@ package com.timirlanyat.odb.controllers;
 
 import com.timirlanyat.odb.dal.repositories.OrganizerRepository;
 import com.timirlanyat.odb.dal.repositories.ReconstructionRepository;
-import com.timirlanyat.odb.dal.repositories.UserRepository;
+import com.timirlanyat.odb.dal.repositories.MemberRepository;
+import com.timirlanyat.odb.model.Member;
 import com.timirlanyat.odb.model.Organizer;
 import com.timirlanyat.odb.model.Reconstruction;
 import com.timirlanyat.odb.model.User;
@@ -16,9 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.util.Base64;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 @Controller
 public class ReconstructionController {
@@ -26,7 +25,7 @@ public class ReconstructionController {
     @Autowired
     private ReconstructionRepository reconstructionRepository;
     @Autowired
-    private UserRepository userRepository;
+    private MemberRepository memberRepository;
     @Autowired
     private OrganizerRepository organizerRepository;
     @Autowired
@@ -49,7 +48,7 @@ public class ReconstructionController {
         if(model.get("user")!=null&&rec.getParticipants().contains((User)model.get("user")))
             model.put("joined",true);
 
-        if(model.get("organizer")!=null&&((Organizer)model.get("organizer")).getReconstructions().contains(rec))
+        if(model.get("organizer")!=null&&((Organizer)model.get("organizer")).getManagedReconstructions().contains(rec))
             model.put("managed",true);
 
         return new ModelAndView("reconstruction",model);
@@ -62,7 +61,7 @@ public class ReconstructionController {
 
         Reconstruction rec = reconstructionRepository.findById(id).get();
         rec.getLocation().setImg(Base64.getEncoder().encodeToString(rec.getLocation().getPhoto()));
-        rec.getParticipants().add((User)model.get("user"));
+        rec.getParticipants().add((Member)model.get("user"));
 
         reconstructionRepository.save(rec);
 

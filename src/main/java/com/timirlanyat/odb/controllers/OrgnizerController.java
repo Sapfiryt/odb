@@ -2,18 +2,15 @@ package com.timirlanyat.odb.controllers;
 
 import com.timirlanyat.odb.dal.repositories.LocationRepository;
 import com.timirlanyat.odb.dal.repositories.OrganizerRepository;
-import com.timirlanyat.odb.dal.repositories.ReconstructionRepository;
-import com.timirlanyat.odb.dal.repositories.UserRepository;
 import com.timirlanyat.odb.model.*;
 import com.timirlanyat.odb.services.ReconstructionService;
 import com.timirlanyat.odb.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,8 +44,8 @@ public class OrgnizerController {
         Map<String, Object> model = userService.getUserParameters(principal);
         Organizer org = checkCurrentUser(model,id,resp);
 
-
-        model.put("reconstructions", org.getReconstructions().toArray());
+        if(org != null)
+            model.put("reconstructions", org.getManagedReconstructions().toArray());
 
         return new ModelAndView("managedRecs", model);
     }
@@ -89,13 +86,24 @@ public class OrgnizerController {
         model.put("errors",errors);
         Organizer org = checkCurrentUser(model,id,resp);
 
+        List<Location> locations = new ArrayList<>();
 
-        locationRepository.findAll();
+        for(Location loc: locationRepository.findAll()){
+            loc.setImg(Base64.getEncoder().encodeToString(loc.getPhoto()));
+            locations.add(loc);
+        }
+
+        model.put("locations",locations);
+
 
         if(errs.hasErrors()){
             for(FieldError err:errs.getFieldErrors())
                 ((Map<String,String>)model.get("errors"))
-                        .put(err.getField(),err.getDefaultMessage());
+                        .put(err.getField(),
+                                StringUtils.capitalize(err.getDefaultMessage()
+                                        .replace("null","empty")
+                                )
+                        );
 
             model.put("creationForm",dto);
             return new ModelAndView("createRec", model);
@@ -104,7 +112,7 @@ public class OrgnizerController {
         Reconstruction created = null;
 
         try{
-            created = reconstructionService.createNewReconstrution(dto);
+            created = reconstructionService.createNewReconstrution(dto,org);
         }
         catch (InvalidAttributeValueException e) {
             ((Map<String,String>)model.get("errors"))
@@ -116,7 +124,9 @@ public class OrgnizerController {
             return new ModelAndView("createRec", model);
         }
 
-        org.getReconstructions().add(created);
+        model.remove("locations");
+        org.getManagedReconstructions().add(created);
+
         organizerRepository.save(org);
 
         return new ModelAndView("redirect:/reconstructions/"+created.getId(), model);

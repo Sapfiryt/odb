@@ -5,9 +5,19 @@
 </head>
 <body>
 {{>header}}
+{{#error}}
+<label style="color: red">
+    Wrong e-mail or password!
+</label>
+{{/error}}
 <form action="/login" method="post">
     <input name="{{_csrf.parameterName}}" type="hidden" value="{{_csrf.token}}"/>
-    <div><label> User Name : <input id="username" type="email" name="username" value=""/> </label></div>
+    <div>
+        <label> User Name :
+            <input id="username" type="email" name="username" value=""/>
+        </label>
+
+    </div>
     <div><label> Password: <input id="password" type="password" name="password" value=""/> </label></div>
     <div><input type="submit" value="Sign In"/></div>
 </form>

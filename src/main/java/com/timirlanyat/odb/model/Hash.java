@@ -21,7 +21,7 @@ public class Hash {
     @MapsId
     @OneToOne
     @JoinColumn(name = "id", referencedColumnName = "id")
-    private User user;
+    private Member user;
 
     @Column(name = "hash")
     private String hash;

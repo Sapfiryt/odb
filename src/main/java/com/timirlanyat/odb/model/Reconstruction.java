@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import org.hibernate.annotations.Check;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,6 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Accessors(chain = true)
+@Check(constraints = "status in ('open','recruitment closed','in progress','closed')")
 public class Reconstruction {
 
     @Id
@@ -53,8 +56,12 @@ public class Reconstruction {
     @JoinColumn(name="location_id")
     private Location location;
 
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Organizer.class)
+    @JoinColumn(name = "organizer_id")
+    private Organizer organizer;
+
     @ManyToMany
-    private Set<User> participants = new HashSet<>();
+    private Set<Member> participants = new HashSet<>();
 
 
     public Reconstruction(){}

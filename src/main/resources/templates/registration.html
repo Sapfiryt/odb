@@ -53,6 +53,29 @@
         {{/errors}}
         </div>
         <div>
+            <label> Date of birth:
+                <input type="date" id="dateOfBirth" name="dateOfBirth" value=""/>
+            </label>
+            {{#errors}}
+            <label style="color: red">
+                {{dateOfBirth}}
+            </label>
+            {{/errors}}
+        </div>
+        <label> Sex:
+            <select id="sex" name="sex">
+                {{#sexes}}
+                <option value="{{.}}">{{.}}</option>
+                {{/sexes}}
+            </select>
+        </label>
+        {{#errors}}
+        <label style="color: red">
+            {{sex}}
+        </label>
+        {{/errors}}
+        </div>
+        <div>
             <label> Password:
                 <input type="password" id="password" name="password" value="" />
             </label>

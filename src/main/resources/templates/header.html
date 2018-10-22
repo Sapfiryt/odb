@@ -1,3 +1,4 @@
+<script type="text/javascript" src="/js/field.js"></script>
 <header style="background-color: green; padding: 0; margin: 0;" >
     <div>
         <form id="main" action="/" method="get">
@@ -17,6 +18,14 @@
     </div>
     {{/organizer}}
     {{#user}}
+        {{#roles}}
+                <label id="{{.}}Label" style="display: none"></label>
+        {{/roles}}
+        <div id="adminDiv" style="display: none">
+            <form id="admin" action="/admin" method="get">
+                <button type="submit" class="btn btn-primary">Admin</button>
+            </form>
+        </div>
     <div>
         <form id="search" action="/search" method="get">
             <button type="submit" class="btn btn-primary">Search</button>
@@ -31,9 +40,16 @@
     {{/user}}
     {{^user}}
     <div>
-        <form id="login" action="/login" method="get">
-            <button type="submit" class="btn btn-primary">Login</button>
+        <form id="signin" action="/login" method="get">
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </form>
+    </div>
+
+    <div>
+        <form id="signup" action="/registration" method="get">
+            <button type="submit" class="btn btn-primary">Sign up</button>
         </form>
     </div>
     {{/user}}
+    <script>isAdmin()</script>
 </header>

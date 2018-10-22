@@ -3,13 +3,17 @@ package com.timirlanyat.odb.model;
 import com.timirlanyat.odb.annotation.PasswordMatches;
 import com.timirlanyat.odb.annotation.ValidEmail;
 import com.timirlanyat.odb.annotation.ValidPhone;
+import com.timirlanyat.odb.converters.SexConverter;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -41,6 +45,11 @@ public class UserDto {
     @NotEmpty
     @ValidPhone
     private String phoneNumber;
+
+    private Sex sex;
+
+    @NotNull
+    private LocalDate dateOfBirth;
 
     private Boolean organizer;
 

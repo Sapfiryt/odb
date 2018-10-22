@@ -13,6 +13,8 @@ public class StringToLocalDateConverter
 
     @Override
     public LocalDate convert(String source) {
+        if(source==null||source.length()==0)
+            return null;
         return LocalDate.parse(
                 source, DateTimeFormatter.ISO_LOCAL_DATE);
     }

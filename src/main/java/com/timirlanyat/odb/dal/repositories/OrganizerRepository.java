@@ -7,9 +7,13 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface OrganizerRepository extends CrudRepository<Organizer,Integer> {
 
-    @Query(value = "select org from Organizer org where org.user = :user")
-    Organizer findByUser(@Param("user") User user)  ;
+
+    @Query(value = "select org from Organizer org where org.approved = false or org.approved is null")
+    List<Organizer> findNotApproved();
+
 }

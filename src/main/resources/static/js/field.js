@@ -6,6 +6,13 @@ function orgChange() {
 
 }
 
+function isAdmin(){
+    if(document.getElementById("ADMINLabel")!=null){
+        document.getElementById("adminDiv").style.display = 'block'
+    }
+}
+
+
 var currentShowed = null;
 
 function showLocation() {

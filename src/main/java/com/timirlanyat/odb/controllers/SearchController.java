@@ -2,6 +2,7 @@ package com.timirlanyat.odb.controllers;
 
 
 import com.timirlanyat.odb.dal.repositories.ReconstructionRepository;
+import com.timirlanyat.odb.model.Member;
 import com.timirlanyat.odb.model.Reconstruction;
 import com.timirlanyat.odb.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,8 @@ public class SearchController  {
         List<Reconstruction> reconstructions= new ArrayList<>();
         reconstrRepo.findAllByParams((Long)cost,(LocalDate) after,(LocalDate) befor, notFull)
                 .forEach(reconstructions::add);
+
+        ((Member)model.get("user")).getRoles().forEach(System.out::println);
 
         model.put("reconstructions",reconstructions);
 
