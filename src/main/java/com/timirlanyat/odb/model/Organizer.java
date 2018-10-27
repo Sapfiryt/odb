@@ -34,15 +34,26 @@ public class Organizer extends Member {
     public Organizer(){}
 
 
-    public void addReconstruction(Reconstruction reconstruction) {
+    public Organizer addReconstruction(Reconstruction reconstruction) {
         managedReconstructions.add(reconstruction);
         reconstruction.setOrganizer(this);
+        return this;
     }
 
-    public void removeReconstruction(Reconstruction reconstruction) {
+    public Organizer removeReconstruction(Reconstruction reconstruction) {
         managedReconstructions.remove(reconstruction);
         reconstruction.setOrganizer(null);
+        return this;
     }
 
+    public Organizer addRole(String role) {
+        this.getRoles().add(role);
+        return this;
+    }
+
+    public Organizer removeRole(String role) {
+        this.getRoles().remove(role);
+        return this;
+    }
 
 }

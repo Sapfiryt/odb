@@ -12,7 +12,7 @@
     {{/reconstruction}}
         <div>
             {{^joined}}
-            <form action="/reconstructions/{{reconstruction.id}}/join" method="get">
+            <form action="/payment/{{reconstruction.id}}" method="get">
                 <button style="background-color: green" type="submit">Join!</button>
             </form>
             {{/joined}}

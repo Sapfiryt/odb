@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Joined</title>
+</head>
+<body>
+    {{>header}}
+    You were successfully joined to reconstruction!
+    <form name="backToRec" action="/reconstructions/{{recId}}" method="get">
+        <input type="submit">
+    </form>
+</body>
+</html>

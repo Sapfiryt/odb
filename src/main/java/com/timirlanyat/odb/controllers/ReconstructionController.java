@@ -60,16 +60,16 @@ public class ReconstructionController {
         Map<String,Object> model= userService.getUserParameters(principal);
 
         Reconstruction rec = reconstructionRepository.findById(id).get();
-        rec.getLocation().setImg(Base64.getEncoder().encodeToString(rec.getLocation().getPhoto()));
+//        rec.getLocation().setImg(Base64.getEncoder().encodeToString(rec.getLocation().getPhoto()));
         rec.getParticipants().add((Member)model.get("user"));
-
+//
         reconstructionRepository.save(rec);
-
-        model.put("numberOfParticipant",rec.getParticipants().size());
+//
+//        model.put("numberOfParticipant",rec.getParticipants().size());
         model.put("joined",true);
-        model.put("reconstruction", rec);
+//        model.put("reconstruction", rec);
+        model.put("recId",id);
 
-
-        return new ModelAndView("redirect:/reconstructions/"+id, model);
+        return new ModelAndView("join", model);
     }
 }

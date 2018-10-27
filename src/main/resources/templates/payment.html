@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create</title>
+
+    <script type="text/javascript" src="/js/field.js"></script>
+</head>
+<body>
+    {{>header}}
+    <div>
+        <h2>Cost of membership {{cost}}</h2>
+        <form id="creationForm" name="creationForm" action="/payment/{{reconstruction_id}}" method="post">
+            <input name="{{_csrf.parameterName}}" type="hidden" value="{{_csrf.token}}"/>
+            <div>
+                <label>
+                    Sum:
+                    <input name="total" type="number" value="{{creationForm.name}}"/>
+                </label>
+                {{#errors}}
+                <label style="color: red">
+                    {{total}}
+                </label>
+                {{/errors}}
+            </div>
+            <input type="submit" value="Send"/>
+        </form>
+    </div>
+</body>
+</html>
