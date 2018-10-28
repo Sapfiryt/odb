@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checks</title>
+
+</head>
+<body>
+{{>header}}
+<div class="solutions_border"><div></div></div>
+    {{#checks}}
+    {{#.}}
+            <h3>Date: {{dateOf}}</h3>
+            <h3>Settlement Number: {{settlementNumber}}</h3>
+            <h3>Name:{{#member}}{{firstName}} {{lastName}}{{/member}}</h3>
+            <h3>Total:{{total}}</h3>
+            <h3>Reconstruction: {{#reconstruction}}<a href="/reconstructions/{{id}}">{{name}}</a>{{/reconstruction}}</h3>
+        {{/.}}
+    <div class="solutions_border"><div></div></div>
+    {{/checks}}
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Check</title>
+</head>
+<body>
+    {{>header}}
+    <div>
+        {{#check}}
+            <h3>Date: {{dateOf}}</h3>
+            <h3>Settlement Number: {{settlementNumber}}</h3>
+            <h3>Name:{{#member}}{{firstName}} {{lastName}}{{/member}}</h3>
+            <h3>Total:{{total}}</h3>
+            <h3>Reconstruction: {{#reconstruction}}<a href="/reconstructions/{{id}}">{{name}}</a>{{/reconstruction}}</h3>
+        {{/check}}
+    </div>
+<form name="toReconstruction" action="/reconstructions/{{recId}}{{#joined}}/join{{/joined}}">
+    <input type="submit" value="Join!">
+</form>
+</body>
+</html>

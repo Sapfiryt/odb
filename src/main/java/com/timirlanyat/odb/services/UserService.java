@@ -46,7 +46,7 @@ public class UserService {
             user.setDateOfBirth(accountDto.getDateOfBirth());
             user.setSex(accountDto.getSex());
             user.setAdmin(false);
-            user.setRoles(Arrays.asList("REC_USER"));
+            user.setRoles(Arrays.asList("REC_MEMBER"));
             user = memberRepository.save((Member)user);
         }else{
             Organizer org = new Organizer();
