@@ -1,5 +1,7 @@
 package com.timirlanyat.odb.model;
 
+import com.timirlanyat.odb.dal.entity.AttributesInReconstructions;
+import com.timirlanyat.odb.dal.entity.AttributesInUse;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -9,7 +11,9 @@ import org.hibernate.annotations.Check;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -62,6 +66,16 @@ public class Reconstruction {
 
     @ManyToMany
     private Set<Member> participants = new HashSet<>();
+
+    @OneToMany(mappedBy = "reconstruction",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Set<AttributesInReconstructions> attributes= new HashSet<>();
+
+    @OneToMany(mappedBy = "reconstruction",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Set<AttributesInUse> attributesInUse= new HashSet<>();
 
 
     public Reconstruction(){}

@@ -20,4 +20,8 @@ public interface PaymentRepository extends CrudRepository<Payment,Integer> {
     @Query(value = "select payment from Payment payment " +
             "where payment.member=:member")
     Iterable<Payment> findAllByMember(@Param("member") Member member);
+
+    @Query(value = "select payment from Payment payment " +
+            "where payment.reconstruction = :reconstruction")
+    Iterable<Payment> findAllByReconstruction(@Param("reconstruction")Reconstruction reconstruction);
 }

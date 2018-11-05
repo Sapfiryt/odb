@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface MemberRepository extends CrudRepository<Member,Integer> {
 
     @Query(value = "select u from Member u where lower(u.email) = lower(:email)")
-    User findByEmail(@Param("email") String email);
+    Member findByEmail(@Param("email") String email);
 
 }

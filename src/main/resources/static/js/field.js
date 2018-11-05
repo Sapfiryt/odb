@@ -37,3 +37,21 @@ function getRealDisplay(elem) {
 
     }
 }
+
+function checkAmount(element){
+    var avaible = document.getElementById('avaibleAmount'+element.id.substring('amount'.length));
+    if(element.value>avaible.innerText)
+        element.value = avaible.innerText;
+}
+
+function enableField(element) {
+    var amount = document.getElementById('amount' + element.id.substring('attribute'.length));
+    if (element.checked) {
+        amount.disabled = false;
+        amount.value = 0;
+    }
+    else {
+        amount.disabled = true;
+        amount.value = null;
+    }
+}

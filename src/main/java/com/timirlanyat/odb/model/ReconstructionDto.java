@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -45,6 +46,12 @@ public class ReconstructionDto {
 
     @NotNull
     private Integer locationId;
+
+    @NotNull
+    private List<Integer> attributesId;
+
+    @NotNull
+    private List<Integer> amount;
 
 
 }

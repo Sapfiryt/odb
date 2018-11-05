@@ -13,8 +13,11 @@
             <form action="/reconstructions/{{id}}">
                 <button style="background-color: yellow"  type="submit">Ditails</button>
             </form>
-            <form action="/participants/{{id}}" >
+            <form action="/reconstructions/{{id}}/participants" >
                 <button style="background-color: lightgray"  type="submit">List of Participant</button>
+            </form>
+            <form action="/reconstructions/{{id}}/checks" method="get">
+                <button style="background-color: gray"  type="submit">Checks</button>
             </form>
         </div>
     {{/reconstructions}}

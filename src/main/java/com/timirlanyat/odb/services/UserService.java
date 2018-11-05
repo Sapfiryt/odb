@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -93,5 +95,18 @@ public class UserService {
             return true;
         }
         return false;
+    }
+
+    public Organizer checkCurrentUser(Map<String, Object> model, Integer id, HttpServletResponse resp)
+            throws IOException {
+
+        Organizer org = (Organizer) model.get("organizer");
+
+        if ( org == null || !org.getId().equals(id)) {
+            resp.sendError(403);
+            return null;
+        }
+
+        return org;
     }
 }

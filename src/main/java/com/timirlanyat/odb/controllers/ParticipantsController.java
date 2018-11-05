@@ -33,7 +33,7 @@ public class ParticipantsController {
     private UserService userService;
 
 
-    @RequestMapping(value="/participants/{id}", method = {RequestMethod.GET})
+    @RequestMapping(value="/reconstructions/{id}/participants", method = {RequestMethod.GET})
     public ModelAndView reconstruction(@PathVariable("id") Integer id, Principal principal,
                                        HttpServletResponse resp) throws IOException {
 

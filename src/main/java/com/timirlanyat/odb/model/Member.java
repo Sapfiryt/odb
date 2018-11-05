@@ -2,6 +2,7 @@ package com.timirlanyat.odb.model;
 
 
 import com.timirlanyat.odb.converters.SexConverter;
+import com.timirlanyat.odb.dal.entity.AttributesInUse;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -23,7 +24,7 @@ import java.util.Set;
 @Setter
 @Accessors(chain = true)
 @Inheritance(strategy = InheritanceType.JOINED)
-@Check(constraints = "sex in ('Male','Female','Not specified'),role in ('REC_MEMBER','REC_ORG','ADMIN')")
+@Check(constraints = "sex in ('Male','Female','Not specified')")
 
 public class Member implements User {
 
@@ -59,12 +60,10 @@ public class Member implements User {
     )
     private Set<Reconstruction> reconstructions = new HashSet<>();
 
-    @ManyToMany(
-            cascade = CascadeType.ALL,
+    @OneToMany(mappedBy = "member",
             fetch = FetchType.LAZY,
-            mappedBy="members"
-    )
-    private Set<Attribute> attributes = new HashSet<>();
+            cascade = CascadeType.ALL)
+    private Set<AttributesInUse> attributes= new HashSet<>();
 
     @Column(name = "admin")
     private Boolean admin;
@@ -80,5 +79,18 @@ public class Member implements User {
         if(admin&&!roles.contains("ADMIN"))
             roles.add("ADMIN");
         return roles;
+    }
+
+    @Override
+    public Member addAttribute(Attribute attribute, Reconstruction reconstruction, Integer amount){
+        this.attributes.add(new AttributesInUse().setReconstruction(reconstruction)
+                .setAttribute(attribute).setAmount(amount).setMember(this));
+        return this;
+    }
+
+    @Override
+    public Member removeAttribute(Attribute attribute){
+        this.attributes.removeIf( attr -> attr.getAttribute().equals(attribute) );
+        return this;
     }
 }

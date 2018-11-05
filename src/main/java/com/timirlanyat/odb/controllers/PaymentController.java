@@ -6,6 +6,7 @@ import com.timirlanyat.odb.dal.repositories.ReconstructionRepository;
 import com.timirlanyat.odb.model.Member;
 import com.timirlanyat.odb.model.Payment;
 import com.timirlanyat.odb.model.Reconstruction;
+import com.timirlanyat.odb.model.User;
 import com.timirlanyat.odb.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,7 +35,7 @@ public class PaymentController {
     private UserService userService;
 
     @RequestMapping(value = "/payment/{id}", method = {RequestMethod.GET})
-    public ModelAndView paymentFrom(@PathVariable("id") Integer id, Principal principal, HttpServletResponse resp) throws IOException {
+    public ModelAndView paymentForm(@PathVariable("id") Integer id, Principal principal, HttpServletResponse resp) throws IOException {
 
         Map<String, Object> model = userService.getUserParameters(principal);
 
@@ -100,17 +101,33 @@ public class PaymentController {
         return new ModelAndView("redirect:/reconstructions/"+id, model);
     }
 
-    @RequestMapping(value = "/checks/{id}", method = {RequestMethod.GET})
-    public ModelAndView checksFrom(@PathVariable("id") Integer id, Principal principal, HttpServletResponse resp) throws IOException {
+    @RequestMapping(value = "/checks", method = {RequestMethod.GET})
+    public ModelAndView userChecks(Principal principal, HttpServletResponse resp) throws IOException {
 
         Map<String, Object> model = userService.getUserParameters(principal);
 
-
-        Optional<Member> found = memberRepository.findById(id);
         List<Payment> checks = new ArrayList<>();
+        User user = (User) model.get("user");
+        if(user != null) {
+            for (Payment payment : paymentRepository.findAllByMember((Member) user))
+                checks.add(payment);
+            model.put("checks",checks);
+        }else{
+            resp.sendError(404);
+        }
 
+        return new ModelAndView("checks", model);
+    }
+
+    @RequestMapping(value = "/reconstructions/{id}/checks", method = {RequestMethod.GET})
+    public ModelAndView reconstructionChecks(@PathVariable("id") Integer id, Principal principal, HttpServletResponse resp) throws IOException {
+
+        Map<String, Object> model = userService.getUserParameters(principal);
+
+        List<Payment> checks = new ArrayList<>();
+        Optional<Reconstruction> found = reconstructionRepository.findById(id);
         if(found.isPresent()) {
-            for (Payment payment : paymentRepository.findAllByMember((Member) model.get("user")))
+            for (Payment payment : paymentRepository.findAllByReconstruction(found.get()))
                 checks.add(payment);
             model.put("checks",checks);
         }else{

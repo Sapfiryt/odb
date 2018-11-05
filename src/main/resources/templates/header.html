@@ -8,13 +8,13 @@
     </div>
     {{#organizer}}
     <div>
-        <form id="reconstructions" action="/{{id}}/reconstructions" method="get">
+        <form id="reconstructions" action="/organizer/reconstructions" method="get">
             <button type="submit" class="btn btn-primary">My reconstrutions</button>
         </form>
     </div>
     <div>
-        <form id="create" action="/{{id}}/create" method="get">
-            <button type="submit" class="btn btn-primary">Create</button>
+        <form id="create" action="/organizer/create" method="get">
+            <button type="submit" class="btn btn-primary">Create Reconstruction</button>
         </form>
     </div>
     {{/organizer}}
@@ -26,8 +26,14 @@
             <form id="admin" action="/admin" method="get">
                 <button type="submit" class="btn btn-primary">Admin</button>
             </form>
-            <form id="adminCreate" action="/admin/create" method="get">
-                <button type="submit" class="btn btn-primary">Create</button>
+            <form id="adminCreate" action="/admin/create/location" method="get">
+                <button type="submit" class="btn btn-primary">Create Location</button>
+            </form>
+            <form id="adminCreateAttr" action="/admin/create/attribute" method="get">
+                <button type="submit" class="btn btn-primary">Add Attribute</button>
+            </form>
+            <form id="attrList" action="/admin/attributes" method="get">
+                <button type="submit" class="btn btn-primary">Attribute List</button>
             </form>
         </div>
         <div>
@@ -36,7 +42,7 @@
             </form>
         </div>
         <div>
-            <form id="checks" action="/checks/{{id}}" method="get">
+            <form id="checks" action="/checks" method="get">
                 <button type="submit" class="btn btn-primary">Checks</button>
             </form>
         </div>

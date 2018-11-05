@@ -1,8 +1,10 @@
 package com.timirlanyat.odb.controllers;
 
+import com.timirlanyat.odb.dal.repositories.AttributeRepository;
 import com.timirlanyat.odb.dal.repositories.LocationRepository;
 import com.timirlanyat.odb.dal.repositories.OrganizerRepository;
 import com.timirlanyat.odb.model.*;
+import com.timirlanyat.odb.services.AttributeService;
 import com.timirlanyat.odb.services.LocationService;
 import com.timirlanyat.odb.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,10 @@ public class AdminController {
     private OrganizerRepository organizerRepository;
     @Autowired
     private LocationService locationService;
+    @Autowired
+    private AttributeService attributeService;
+    @Autowired
+    private AttributeRepository attributeRepository;
 
 
     @RequestMapping(value={"/admin"}, method = RequestMethod.GET)
@@ -46,20 +52,20 @@ public class AdminController {
         return new ModelAndView("admin",model);
     }
 
-    @RequestMapping(value={"/admin/{id}"}, method = RequestMethod.POST)
-    public String approve(@PathVariable("id") Integer id) {
+    @RequestMapping(value={"/admin"}, method = RequestMethod.POST)
+    public String approve(@RequestParam("id") Integer id) {
 
 
-                organizerRepository.findById(id).ifPresent( org -> organizerRepository
-                                                                    .save(org.setApproved(true)
-                                                                            .addRole("REC_ORG")));
+        organizerRepository.findById(id).ifPresent( org -> organizerRepository
+                                                            .save(org.setApproved(true)
+                                                                    .addRole("REC_ORG")));
 
         return "redirect:/admin";
     }
 
 
 
-    @RequestMapping(value={"/admin/create"}, method = RequestMethod.GET)
+    @RequestMapping(value={"/admin/create/location"}, method = RequestMethod.GET)
     public ModelAndView createLocationView(Principal principal){
 
         Map<String,Object> model = userService.getUserParameters(principal);
@@ -69,7 +75,7 @@ public class AdminController {
         return new ModelAndView("createLocation",model);
     }
 
-    @RequestMapping(value={"/admin/create"}, method = RequestMethod.POST)
+    @RequestMapping(value={"/admin/create/location"}, method = RequestMethod.POST)
     public ModelAndView createLocation(@RequestParam("photo") MultipartFile photo, Principal principal,
                                        @ModelAttribute("creationForm") @Valid LocationDto dto,
                                        BindingResult result, WebRequest request, Errors errs, HttpServletResponse resp)
@@ -94,19 +100,75 @@ public class AdminController {
 
         Location created = null;
 
-        try{
-            created = locationService.createNewLocation(dto);
-        }
-        catch (InvalidAttributeValueException e) {
-            ((Map<String,String>)model.get("errors"))
-                    .put("locationError","Location not exist!");
-        }
+
+        created = locationService.createNewLocation(dto);
+
 
         if (!((Map<String,String>)model.get("errors")).isEmpty()) {
             model.put("creationForm",dto);
-            return new ModelAndView("createRec", model);
+            return new ModelAndView("createLocation", model);
         }
 
         return new ModelAndView("redirect:/admin",model);
+    }
+
+
+
+    @RequestMapping(value={"/admin/create/attribute"}, method = RequestMethod.GET)
+    public ModelAndView createAttributeView(Principal principal){
+
+        Map<String,Object> model = userService.getUserParameters(principal);
+        model.put("creationForm",new AttributeDto());
+
+
+        return new ModelAndView("createAttribute",model);
+    }
+
+    @RequestMapping(value={"/admin/create/attribute"}, method = RequestMethod.POST)
+    public ModelAndView createAttribute(Principal principal,
+                                       @ModelAttribute("creationForm") @Valid AttributeDto dto,
+                                       BindingResult result, WebRequest request, Errors errs, HttpServletResponse resp)
+    {
+        Map<String,Object> model = userService.getUserParameters(principal);
+
+        Map<String,String> errors= new HashMap<>();
+        model.put("errors",errors);
+
+        if(errs.hasErrors()){
+            for(FieldError err:errs.getFieldErrors())
+                ((Map<String,String>)model.get("errors"))
+                        .put(err.getField(),
+                                StringUtils.capitalize(err.getDefaultMessage()
+                                        .replace("null","empty")
+                                )
+                        );
+
+            model.put("creationForm",dto);
+            return new ModelAndView("createAttribute", model);
+        }
+
+        Attribute created = null;
+
+
+        created = attributeService.createNewAttribute(dto);
+
+
+        if (!((Map<String,String>)model.get("errors")).isEmpty()) {
+            model.put("creationForm",dto);
+            return new ModelAndView("createAttribute", model);
+        }
+
+        return new ModelAndView("redirect:/admin",model);
+    }
+
+
+    @RequestMapping(value={"/admin/attributes"}, method = RequestMethod.GET)
+    public ModelAndView attributeList(Principal principal){
+
+        Map<String,Object> model = userService.getUserParameters(principal);
+        model.put("creationForm",new AttributeDto());
+        model.put("attributes",attributeRepository.findAll());
+
+        return new ModelAndView("attributeList",model);
     }
 }

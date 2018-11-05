@@ -1,5 +1,7 @@
 package com.timirlanyat.odb.model;
 
+import com.timirlanyat.odb.dal.entity.AttributesInUse;
+
 import java.util.List;
 
 public interface User {
@@ -21,7 +23,7 @@ public interface User {
 
     User setReconstructions(java.util.Set<Reconstruction> reconstructions);
 
-    User setAttributes(java.util.Set<Attribute> attributes);
+    User setAttributes(java.util.Set<AttributesInUse> attributes);
 
     User setAdmin(Boolean admin);
 
@@ -43,7 +45,11 @@ public interface User {
 
     java.util.Set<Reconstruction> getReconstructions();
 
-    java.util.Set<Attribute> getAttributes();
+    java.util.Set<AttributesInUse> getAttributes();
 
     Boolean getAdmin();
+
+    Member addAttribute(Attribute attribute, Reconstruction reconstruction, Integer amount);
+
+    Member removeAttribute(Attribute attribute);
 }

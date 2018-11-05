@@ -2,7 +2,6 @@
 
     width: 100%;
     height: 10px;
-    border-style: dashed;
-    border-width: 0 0 2px 0;
-    border-color: Aqua;
+    border: 0 dashed Aqua;
+    border-bottom-width: 2px;
 }

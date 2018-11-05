@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checks</title>
+
+</head>
+<body>
+{{>header}}
+    <div class="solutions_border"><div></div></div>
+    {{#attributes}}
+        {{#.}}
+            <h3>Name:{{name}}</h3>
+            <h3>Description:{{description}}</h3>
+            <h3>Amount: {{amount}}</h3>
+            <h3>Cost: {{cost}}</h3>
+            <h3>Type: {{type}}</h3>
+        {{/.}}
+    <div class="solutions_border"><div></div></div>
+    {{/attributes}}
+</body>
+</html>

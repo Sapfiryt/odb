@@ -1,5 +1,6 @@
 package com.timirlanyat.odb.controllers;
 
+import com.timirlanyat.odb.dal.repositories.AttributeRepository;
 import com.timirlanyat.odb.dal.repositories.LocationRepository;
 import com.timirlanyat.odb.dal.repositories.OrganizerRepository;
 import com.timirlanyat.odb.model.*;
@@ -36,29 +37,35 @@ public class OrgnizerController {
     private LocationRepository locationRepository;
     @Autowired
     private OrganizerRepository organizerRepository;
+    @Autowired
+    private AttributeRepository attributeRepository;
 
-    @RequestMapping(value="/{id}/reconstructions", method = {RequestMethod.GET})
-    public ModelAndView reconstructions(@PathVariable("id") Integer id, Principal principal, HttpServletResponse resp)
+    @RequestMapping(value="/organizer/reconstructions", method = {RequestMethod.GET})
+    public ModelAndView reconstructions(Principal principal, HttpServletResponse resp)
             throws IOException {
 
         Map<String, Object> model = userService.getUserParameters(principal);
-        Organizer org = checkCurrentUser(model,id,resp);
 
-        if(org != null)
-            model.put("reconstructions", org.getManagedReconstructions().toArray());
+        Organizer org = (Organizer) model.get("organizer");
+
+        model.put("reconstructions", org.getManagedReconstructions().toArray());
 
         return new ModelAndView("managedRecs", model);
     }
 
 
-    @RequestMapping(value="/{id}/create", method = {RequestMethod.GET})
-    public ModelAndView createScratch(@PathVariable("id") Integer id, Principal principal,
-                                      HttpServletResponse resp)
+    @RequestMapping(value="/organizer/create", method = {RequestMethod.GET})
+    public ModelAndView createScratch( Principal principal, HttpServletResponse resp)
             throws IOException {
 
         Map<String, Object> model = userService.getUserParameters(principal);
-        checkCurrentUser(model,id,resp);
 
+
+        List<Attribute> attributes = new ArrayList<>();
+        attributeRepository.findAll().forEach(attribute -> {
+            if(attribute.getAmount()>0)
+                attributes.add(attribute);
+        });
 
         List<Location> locations = new ArrayList<>();
 
@@ -67,6 +74,7 @@ public class OrgnizerController {
             locations.add(loc);
         }
 
+        model.put("attributes",attributes);
         model.put("locations",locations);
         model.put("creationForm",new ReconstructionDto());
 
@@ -74,8 +82,8 @@ public class OrgnizerController {
     }
 
 
-    @RequestMapping(value="/{id}/create", method = {RequestMethod.POST})
-    public ModelAndView create(@PathVariable("id") Integer id, Principal principal,
+    @RequestMapping(value="/organizer/create", method = {RequestMethod.POST})
+    public ModelAndView create( Principal principal,
                                @ModelAttribute("creationForm") @Valid ReconstructionDto dto,
                                BindingResult result, WebRequest request, Errors errs,
                                HttpServletResponse resp)
@@ -84,7 +92,13 @@ public class OrgnizerController {
         Map<String, Object> model = userService.getUserParameters(principal);
         Map<String,String> errors= new HashMap<>();
         model.put("errors",errors);
-        Organizer org = checkCurrentUser(model,id,resp);
+        Organizer org = (Organizer) model.get("organizer");
+
+        List<Attribute> attributes = new ArrayList<>();
+        attributeRepository.findAll().forEach(attribute -> {
+            if(attribute.getAmount()>0)
+                attributes.add(attribute);
+        });
 
         List<Location> locations = new ArrayList<>();
 
@@ -93,6 +107,7 @@ public class OrgnizerController {
             locations.add(loc);
         }
 
+        model.put("attributes",attributes);
         model.put("locations",locations);
 
 
@@ -116,7 +131,7 @@ public class OrgnizerController {
         }
         catch (InvalidAttributeValueException e) {
             ((Map<String,String>)model.get("errors"))
-                    .put("locationError","Location not exist!");
+                    .put("locationError",e.getMessage());
         }
 
         if (!((Map<String,String>)model.get("errors")).isEmpty()) {
@@ -130,23 +145,6 @@ public class OrgnizerController {
         organizerRepository.save(org);
 
         return new ModelAndView("redirect:/reconstructions/"+created.getId(), model);
-    }
-
-
-
-
-
-    private Organizer checkCurrentUser(Map<String, Object> model, Integer id, HttpServletResponse resp)
-            throws IOException {
-
-        Organizer org = (Organizer) model.get("organizer");
-
-        if ( org == null || !org.getId().equals(id)) {
-            resp.sendError(403);
-            return null;
-        }
-
-        return org;
     }
 
 

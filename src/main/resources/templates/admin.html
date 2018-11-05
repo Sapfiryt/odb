@@ -13,8 +13,9 @@
         <label>{{email}} </label>
         <label>{{phoneNumber}} </label>
         <label>{{numAgreement}}</label>
-        <form id="creationForm" name="creationForm" action="/admin/{{id}}" method="post">
+        <form id="creationForm" name="creationForm" action="/admin" method="post">
             <input name="{{_csrf.parameterName}}" type="hidden" value="{{_csrf.token}}"/>
+            <input name="id" value="{{id}}" type="hidden"/>
             <input type="submit" value="Approve"/>
         </form>
         {{/.}}

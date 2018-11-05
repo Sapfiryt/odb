@@ -17,7 +17,7 @@ public class LocationService {
     private LocationRepository locationRepository;
 
     @Transactional
-    public Location createNewLocation(LocationDto dto) throws InvalidAttributeValueException {
+    public Location createNewLocation(LocationDto dto){
 
 
         Location location = new Location();
