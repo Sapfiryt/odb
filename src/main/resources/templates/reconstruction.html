@@ -3,66 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <title>{{reconstruction.name}}</title>
+    <link rel="stylesheet" href="/css/styles.css" type="text/css">
 </head>
 <body>
     {{>header}}
-    {{#reconstruction}}
-        <h1>{{name}}</h1>
-        <div><h2>Status: <p style="color: firebrick;">{{status}}</p> {{minParticipant}}/<p style="width: 25%">{{numberOfParticipant}}</p>/{{maxParticipant}}</h2></div>
-    {{/reconstruction}}
-        <div>
-            {{^joined}}
-            <form action="/payment/{{reconstruction.id}}" method="get">
-                <button style="background-color: green" type="submit">Join!</button>
-            </form>
-            {{/joined}}
-        </div>
-        {{#reconstruction}}
-        <h3>{{year}}</h3>
-        <p>{{about}}</p>
-        <label>Cost:</label>
-        <h3>{{cost}}</h3>
-        <div>
-            <img src="data:image/jpeg;base64,{{location.img}}">
-        </div>
-        <div>
-            <label>Address:</label>
-            <h3>{{location.country}}, {{location.address}}</h3>
-        </div>
-        <div>
-            <label>Date:</label>
-            <h3>{{dateOf}}</h3>
-        </div>
-    <form name="attributesForm" action="/attributes/reserve" method="post">
-        <input name="{{_csrf.parameterName}}" type="hidden" value="{{_csrf.token}}"/>
-        <input type="hidden" name="reconstructionId" value="{{reconstruction.id}}">
-        {{#attributes}}
-                {{#.}}
+    <div class="columns">
+        <div class="registration-div">
+            {{#reconstruction}}
+            <h1>{{name}}</h1>
+            <div class="labeled-div photo-container" style="border-color: green">
+                <div class="rec-status">
                     <div>
-                        {{#attribute}}
-                        <h3>Name:{{name}}</h3>
-                        <h3>Description:{{description}}</h3>
-                        <h3>Cost: {{cost}}</h3>
-                        <h3>Type: {{type}}</h3>
-                        {{/attribute}}
-                        <h3 id="avaibleAmount{{attribute.id}}">Amount:{{amountOf}}</h3>
-
-                        <input id="amount{{attribute.id}}" name="amount" type="number" onchange="checkAmount(this)" disabled="true"/>
-                        <input id="attribute{{attribute.id}}" name="attributesId" type="checkbox" onchange="enableField(this)" value="{{attribute.id}}"/>
+                        <h2>Status: <p style="color: firebrick;">{{status}}</p> </h2>
+                        <h2>Cost: <p>{{cost}}</p> </h2>
+                        {{^joined}}
+                        <div>
+                            <form action="/payment/{{reconstruction.id}}" method="get">
+                                <button style="background-color: green; color: white" class="regular-button" type="submit">Join!</button>
+                            </form>
+                        </div>
+                        {{/joined}}
                     </div>
-                {{/.}}
-            <input type="submit">
-        {{/attributes}}
+                    <div>
+                        <h2>Participants: <p>{{minParticipant}}/{{numberOfParticipant}}/{{maxParticipant}}</p></h2>
+                        <h2>Date: <p>{{dateOf}}</p></h2>
+                    </div>
+                </div>
+            </div>
 
-    </form>
-    {{/reconstruction}}
-    {{#managed}}
-    <form action="/reconstructions/{{reconstruction.id}}/participants" method="get">
-        <button style="background-color: gray"  type="submit">List of Participant</button>
-    </form>
-    <form action="/reconstructions/{{reconstruction.id}}/checks" method="get">
-        <button style="background-color: gray"  type="submit">Checks</button>
-    </form>
-    {{/managed}}
+            <div style="margin-top: 50px; width: 100%"></div>
+
+
+            <h2>Year: <p>{{year}}</p></h2>
+            <h2>About: <p class="about">{{about}}</p></h2>
+        <div class="labeled-div photo-container">
+            <div style="justify-self: center">
+                <img src="data:image/jpeg;base64,{{location.img}}" style="width: 100%;"/>
+            </div>
+            <div>
+                <label>Address:</label>
+                <h3>{{location.country}}, {{location.address}}</h3>
+            </div>
+            <div>
+                <label>Date:</label>
+                <h3>{{dateOf}}</h3>
+            </div>
+        </div>
+        {{/reconstruction}}
+        {{#managed}}
+        <div style="display: flex;">
+            <form action="/reconstructions/{{reconstruction.id}}/participants" method="get">
+                <button class="regular-button manager-button"  type="submit">List of Participant</button>
+            </form>
+            <form action="/reconstructions/{{reconstruction.id}}/checks" method="get">
+                <button class="regular-button manager-button" type="submit">Checks</button>
+            </form>
+        </div>
+        {{/managed}}
+        </div>
+        <div class="registration-div">
+
+            <h2>Attributes</h2>
+            <form name="attributesForm" action="/attributes/reserve" method="post">
+                <input name="{{_csrf.parameterName}}" type="hidden" value="{{_csrf.token}}"/>
+                <input type="hidden" name="reconstructionId" value="{{reconstruction.id}}">
+                {{#attributes}}
+                        {{#.}}
+                            <div>
+                                {{#attribute}}
+                                <h3>Name:{{name}}</h3>
+                                <h3>Description:{{description}}</h3>
+                                <h3>Cost: {{cost}}</h3>
+                                <h3>Type: {{type}}</h3>
+                                {{/attribute}}
+                                <h3 id="avaibleAmount{{attribute.id}}">Amount:{{amountOf}}</h3>
+
+                                <input id="amount{{attribute.id}}" style="width: 80%;" name="amount" type="number" onchange="checkAmount(this)" disabled="true"/>
+                                <input id="attribute{{attribute.id}}" name="attributesId" type="checkbox" onchange="enableField(this)" value="{{attribute.id}}"/>
+                            </div>
+                        {{/.}}
+                <button type="submit" class="regular-button">Submit</button>
+                {{/attributes}}
+
+            </form>
+        </div>
+    </div>
+
+
 </body>
 </html>

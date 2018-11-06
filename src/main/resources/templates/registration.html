@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-
+    <link rel="stylesheet" href="/css/styles.css" type="text/css">
 </head>
 <body>
 {{>header}}
@@ -12,89 +12,93 @@
 {{/errors}}
     <form id="newUser" name="newUser" action="/registration" method="POST">
         <input name="{{_csrf.parameterName}}" type="hidden" value="{{_csrf.token}}"/>
-        <div>
-            <label> Email :
-                <input type="email" id="email" name="email" value=""/>
+        <div class="registration-div">
+            <div>
+                <label> Email :
+                    <input type="email" id="email" name="email" value=""/>
+                </label>
+                {{#errors}}
+                <label style="color: red">
+                    {{email}}
+                </label>
+                {{/errors}}
+            </div>
+            <div>
+                <label> First Name:
+                    <input type="text" id="firstName" name="firstName" value=""/>
+                </label>
+                {{#errors}}
+                <label style="color: red">
+                    {{firstName}}
+                </label>
+                {{/errors}}
+            </div>
+            <div>
+                <label> Last Name:
+                    <input type="text" id="lastName" name="lastName" value=""/>
+                </label>
+                {{#errors}}
+                <label style="color: red">
+                    {{lastName}}
+                </label>
+                {{/errors}}
+            </div>
+            <div>
+            <label> Phone number:
+                <input type="text" id="phoneNumber" name="phoneNumber" value=""/>
             </label>
             {{#errors}}
             <label style="color: red">
-                {{email}}
+                {{phoneNumber}}
             </label>
             {{/errors}}
-        </div>
-        <div>
-            <label> First Name:
-                <input type="text" id="firstName" name="firstName" value=""/>
+            </div>
+            <div>
+                <label> Date of birth:
+                    <input type="date" id="dateOfBirth" name="dateOfBirth" value=""/>
+                </label>
+                {{#errors}}
+                <label style="color: red">
+                    {{dateOfBirth}}
+                </label>
+                {{/errors}}
+            </div>
+            <div>
+            <label> Sex:
+                <select id="sex" name="sex">
+                    {{#sexes}}
+                    <option value="{{.}}">{{.}}</option>
+                    {{/sexes}}
+                </select>
             </label>
             {{#errors}}
             <label style="color: red">
-                {{firstName}}
+                {{sex}}
             </label>
             {{/errors}}
+            </div>
+            <div>
+                <label> Password:
+                    <input type="password" id="password" name="password" value="" />
+                </label>
+                {{#errors}}
+                <label style="color: red">
+                    {{password}}
+                </label>
+                {{/errors}}
+            </div>
+            <div>
+                <label> Repeat password:
+                    <input type="password" id="matchingPassword" name="matchingPassword" value="" />
+                </label>
+                {{#errors}}
+                <label style="color: red">
+                    {{passwordNotMatchedErr}}
+                </label>
+                {{/errors}}
+            </div>
         </div>
-        <div>
-            <label> Last Name:
-                <input type="text" id="lastName" name="lastName" value=""/>
-            </label>
-            {{#errors}}
-            <label style="color: red">
-                {{lastName}}
-            </label>
-            {{/errors}}
-        </div>
-        <div>
-        <label> Phone number:
-            <input type="text" id="phoneNumber" name="phoneNumber" value=""/>
-        </label>
-        {{#errors}}
-        <label style="color: red">
-            {{phoneNumber}}
-        </label>
-        {{/errors}}
-        </div>
-        <div>
-            <label> Date of birth:
-                <input type="date" id="dateOfBirth" name="dateOfBirth" value=""/>
-            </label>
-            {{#errors}}
-            <label style="color: red">
-                {{dateOfBirth}}
-            </label>
-            {{/errors}}
-        </div>
-        <label> Sex:
-            <select id="sex" name="sex">
-                {{#sexes}}
-                <option value="{{.}}">{{.}}</option>
-                {{/sexes}}
-            </select>
-        </label>
-        {{#errors}}
-        <label style="color: red">
-            {{sex}}
-        </label>
-        {{/errors}}
-        </div>
-        <div>
-            <label> Password:
-                <input type="password" id="password" name="password" value="" />
-            </label>
-            {{#errors}}
-            <label style="color: red">
-                {{password}}
-            </label>
-            {{/errors}}
-        </div>
-        <div>
-            <label> Repeat password:
-                <input type="password" id="matchingPassword" name="matchingPassword" value="" />
-            </label>
-            {{#errors}}
-            <label style="color: red">
-                {{passwordNotMatchedErr}}
-            </label>
-            {{/errors}}
-        </div>
+        <div class="labeled-div">
         <div>
             <label> Organizer:
                 <input type="checkbox" onchange="orgChange()" id="organizer" name="organizer"  />
@@ -115,7 +119,8 @@
             </label>
             {{/errors}}
         </div>
-        <div><input type="submit" value="Sign Up"/></div>
+        </div>
+        <div class="registration-div"><button type="submit" class="regular-button">Sign Up</button></div>
     </form>
     <script type="text/javascript" src="/js/field.js"></script>
 </body>

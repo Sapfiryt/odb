@@ -3,22 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Reconstructions</title>
+    <link rel="stylesheet" href="/css/styles.css" type="text/css">
 </head>
 <body>
     {{>header}}
     {{#reconstructions}}
-        <div>
-            <label>{{name}}</label>
-            <label>{{about}}</label>
-            <form action="/reconstructions/{{id}}">
-                <button style="background-color: yellow"  type="submit">Ditails</button>
-            </form>
-            <form action="/reconstructions/{{id}}/participants" >
-                <button style="background-color: lightgray"  type="submit">List of Participant</button>
-            </form>
-            <form action="/reconstructions/{{id}}/checks" method="get">
-                <button style="background-color: gray"  type="submit">Checks</button>
-            </form>
+        <div class="rec-in-list">
+            <h3>{{name}}</h3>
+            <p>{{about}}</p>
+            <div class="button-holder">
+                <form action="/reconstructions/{{id}}">
+                    <button class="regular-button manager-button" type="submit">Ditails</button>
+                </form>
+                <form action="/reconstructions/{{id}}/participants" >
+                    <button class="regular-button manager-button"  type="submit">List of Participant</button>
+                </form>
+                <form action="/reconstructions/{{id}}/checks" method="get">
+                    <button class="regular-button manager-button" type="submit">Checks</button>
+                </form>
+            </div>
         </div>
     {{/reconstructions}}
 </body>

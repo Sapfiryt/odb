@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Create</title>
-
     <script type="text/javascript" src="/js/field.js"></script>
+    <link rel="stylesheet" href="/css/styles.css" type="text/css">
 </head>
 <body>
     {{>header}}
-    <div>
+    <div class="registration-div">
         <h2>Cost of membership {{cost}}</h2>
         <form id="creationForm" name="creationForm" action="/payment/{{reconstruction_id}}" method="post">
             <input name="{{_csrf.parameterName}}" type="hidden" value="{{_csrf.token}}"/>
@@ -23,7 +23,7 @@
                 </label>
                 {{/errors}}
             </div>
-            <input type="submit" value="Send"/>
+            <button type="submit" class="regular-button">Send</button>
         </form>
     </div>
 </body>

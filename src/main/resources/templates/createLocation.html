@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Create</title>
-
+    <link rel="stylesheet" href="/css/styles.css" type="text/css">
     <script type="text/javascript" src="/js/field.js"></script>
 </head>
 <body>
@@ -11,51 +11,53 @@
     <div>
         <form id="creationForm" name="creationForm" action="/admin/create/location" method="post" enctype="multipart/form-data">
             <input name="{{_csrf.parameterName}}" type="hidden" value="{{_csrf.token}}"/>
-            <div>
-                <label>
-                    Name:
-                    <input name="name" type="text" value="{{creationForm.name}}"/>
-                </label>
-                {{#errors}}
-                <label style="color: red">
-                    {{name}}
-                </label>
-                {{/errors}}
+            <div class="registration-div">
+                <div>
+                    <label>
+                        Name:
+                        <input name="name" type="text" value="{{creationForm.name}}"/>
+                    </label>
+                    {{#errors}}
+                    <label style="color: red">
+                        {{name}}
+                    </label>
+                    {{/errors}}
+                </div>
+                <div>
+                    <label>
+                        Address:
+                        <input name="address" type="text" value="{{creationForm.address}}"/>
+                    </label>
+                    {{#errors}}
+                    <label style="color: red">
+                        {{address}}
+                    </label>
+                    {{/errors}}
+                </div>
+                <div>
+                    <label>
+                        Country:
+                        <input name="country" type="text" value="{{creationForm.country}}"/>
+                    </label>
+                    {{#errors}}
+                    <label style="color: red">
+                        {{country}}
+                    </label>
+                    {{/errors}}
+                </div>
+                <div>
+                    <label>
+                        Photo:
+                        <input id="photo" name="photo" type="file" value="{{creationForm.photo}}"/>
+                    </label>
+                    {{#errors}}
+                    <label style="color: red">
+                        {{year}}
+                    </label>
+                    {{/errors}}
+                </div>
+                <button type="submit" class="regular-button">Create</button>
             </div>
-            <div>
-                <label>
-                    Address:
-                    <input name="address" type="text" value="{{creationForm.address}}"/>
-                </label>
-                {{#errors}}
-                <label style="color: red">
-                    {{address}}
-                </label>
-                {{/errors}}
-            </div>
-            <div>
-                <label>
-                    Country:
-                    <input name="country" type="text" value="{{creationForm.country}}"/>
-                </label>
-                {{#errors}}
-                <label style="color: red">
-                    {{country}}
-                </label>
-                {{/errors}}
-            </div>
-            <div>
-                <label>
-                    Photo:
-                    <input id="photo" name="photo" type="file" value="{{creationForm.photo}}"/>
-                </label>
-                {{#errors}}
-                <label style="color: red">
-                    {{year}}
-                </label>
-                {{/errors}}
-            </div>
-            <input type="submit" value="Create"/>
         </form>
     </div>
 </body>

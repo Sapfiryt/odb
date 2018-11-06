@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Create</title>
-
+    <link rel="stylesheet" href="/css/styles.css" type="text/css">
     <script type="text/javascript" src="/js/field.js"></script>
 </head>
 <body>
@@ -11,6 +11,7 @@
     <div>
         <form id="creationForm" name="creationForm" action="/admin/create/attribute" method="post">
             <input name="{{_csrf.parameterName}}" type="hidden" value="{{_csrf.token}}"/>
+            <div class="registration-div">
             <div>
                 <label>
                     Name:
@@ -66,7 +67,9 @@
                 </label>
                 {{/errors}}
             </div>
-            <input type="submit" value="Create"/>
+                <button type="submit" class="regular-button">Create</button>
+            </div>
+
         </form>
     </div>
 </body>

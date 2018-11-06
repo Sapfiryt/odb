@@ -8,7 +8,7 @@ function orgChange() {
 
 function isAdmin(){
     if(document.getElementById("ADMINLabel")!=null){
-        document.getElementById("adminDiv").style.display = 'block'
+        document.getElementById("adminDiv").style.display = 'flex'
     }
 }
 

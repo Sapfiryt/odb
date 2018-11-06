@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Create</title>
-
+    <link rel="stylesheet" href="/css/styles.css" type="text/css">
     <script type="text/javascript" src="/js/field.js"></script>
 </head>
 <body>
@@ -11,130 +11,140 @@
     <div>
         <form id="creationForm" name="creationForm" action="/organizer/create" method="post">
             <input name="{{_csrf.parameterName}}" type="hidden" value="{{_csrf.token}}"/>
-            <div>
-                <label>
-                    Name:
-                    <input name="name" type="text" value="{{creationForm.name}}"/>
-                </label>
-                {{#errors}}
-                <label style="color: red">
-                    {{name}}
-                </label>
-                {{/errors}}
-            </div>
-            <div>
-                <label>
-                    About:
-                    <input name="about" type="text" value="{{creationForm.about}}"/>
-                </label>
-                {{#errors}}
-                <label style="color: red">
-                    {{about}}
-                </label>
-                {{/errors}}
-            </div>
-            <div>
-                <label>
-                    Cost:
-                    <input name="cost" type="number" value="{{creationForm.cost}}"/>
-                    $
-                </label>
-                {{#errors}}
-                <label style="color: red">
-                    {{cost}}
-                </label>
-                {{/errors}}
-            </div>
-            <div>
-                <label>
-                    Date:
-                    <input name="dateOf" type="datetime-local" value="{{creationForm.dateOf}}"/>
-                </label>
-                {{#errors}}
-                <label style="color: red">
-                    {{dateOf}}
-                </label>
-                {{/errors}}
-            </div>
-            <div>
-                <label>
-                    Max Participants:
-                    <input name="maxParticipants" type="number" value="{{creationForm.maxParticipants}}"/>
-                </label>
-                {{#errors}}
-                <label style="color: red">
-                    {{maxParticipants}}
-                </label>
-                {{/errors}}
-            </div>
-            <div>
-                <label>
-                    Min Participants:
-                    <input name="minParticipants" type="number" value="{{creationForm.minParticipants}}"/>
-                </label>
-                {{#errors}}
-                <label style="color: red">
-                    {{minParticipants}}
-                </label>
-                {{/errors}}
-            </div>
-            <div>
-                <label>
-                    Year:
-                    <input name="year" type="date" value="{{creationForm.year}}"/>
-                </label>
-                {{#errors}}
-                <label style="color: red">
-                    {{year}}
-                </label>
-                {{/errors}}
-            </div>
-            <div>
-            <label>
-                Location:
-                <select id="locationSelector" name="locationId" onchange="showLocation()" >
-                    {{#locations}}
-                    <option value="{{id}}">{{name}}</option>
-                    {{/locations}}
-                </select>
-                {{#errors}}
-                <label style="color: red">
-                    {{locationError}}
-                </label>
-                {{/errors}}
-            </label>
-            </div>
-            {{#locations}}
-            <div id="location{{id}}" style="display: none">
-                <h3>{{name}}</h3>
+            <div class="columns">
+            <div class="registration-div">
                 <div>
-                    <img src="data:image/jpeg;base64,{{img}}">
+                    <label>
+                        Name:
+                        <input name="name" type="text" value="{{creationForm.name}}"/>
+                    </label>
+                    {{#errors}}
+                    <label style="color: red">
+                        {{name}}
+                    </label>
+                    {{/errors}}
                 </div>
                 <div>
-                    <label>Address:</label>
-                    <h3>{{country}}, {{address}}</h3>
+                    <label>
+                        About:
+                        <input name="about" type="text" value="{{creationForm.about}}"/>
+                    </label>
+                    {{#errors}}
+                    <label style="color: red">
+                        {{about}}
+                    </label>
+                    {{/errors}}
                 </div>
+                <div>
+                    <label>
+                        Cost:
+                        <input name="cost" type="number" value="{{creationForm.cost}}"/>
+                    </label>
+                    {{#errors}}
+                    <label style="color: red">
+                        {{cost}}
+                    </label>
+                    {{/errors}}
+                </div>
+                <div>
+                    <label>
+                        Date:
+                        <input name="dateOf" type="datetime-local" value="{{creationForm.dateOf}}"/>
+                    </label>
+                    {{#errors}}
+                    <label style="color: red">
+                        {{dateOf}}
+                    </label>
+                    {{/errors}}
+                </div>
+                <div>
+                    <label>
+                        Max Participants:
+                        <input name="maxParticipants" type="number" value="{{creationForm.maxParticipants}}"/>
+                    </label>
+                    {{#errors}}
+                    <label style="color: red">
+                        {{maxParticipants}}
+                    </label>
+                    {{/errors}}
+                </div>
+                <div>
+                    <label>
+                        Min Participants:
+                        <input name="minParticipants" type="number" value="{{creationForm.minParticipants}}"/>
+                    </label>
+                    {{#errors}}
+                    <label style="color: red">
+                        {{minParticipants}}
+                    </label>
+                    {{/errors}}
+                </div>
+                <div>
+                    <label>
+                        Year:
+                        <input name="year" type="date" value="{{creationForm.year}}"/>
+                    </label>
+                    {{#errors}}
+                    <label style="color: red">
+                        {{year}}
+                    </label>
+                    {{/errors}}
+                </div>
+                <div class="labeled-div photo-container">
+
+                <label>
+                    Location:
+                    <select id="locationSelector" name="locationId" onchange="showLocation()" >
+                        {{#locations}}
+                        <option value="{{id}}">{{name}}</option>
+                        {{/locations}}
+                    </select>
+                    {{#errors}}
+                    <label style="color: red">
+                        {{locationError}}
+                    </label>
+                    {{/errors}}
+                </label>
+
+
+                {{#locations}}
+                <div id="location{{id}}" style="display: none">
+                    <h3>{{name}}</h3>
+                    <div style="justify-self: center">
+                        <img src="data:image/jpeg;base64,{{img}}" style="width: 100%;"/>
+                    </div>
+                    <div>
+                        <label>Address:
+                        <p>{{country}}, {{address}}</p>
+                        </label>
+                    </div>
+                </div>
+                {{/locations}}
+                </div>
+                <button type="submit" class="regular-button">Create</button>
             </div>
-            {{/locations}}
-            <div>
+            <div class="registration-div">
+
                 <h2>Attributes</h2>
                 {{#attributes}}
                     <div>
                         {{#.}}
-                        <h3>Name:{{name}}</h3>
-                        <h3>Description:{{description}}</h3>
-                        <h3>Amount: {{amount}}</h3>
-                        <h3>Cost: {{cost}}</h3>
-                        <h3>Type: {{type}}</h3>
+                        <div class="solutions_border"><div></div></div>
+                        <p>Name: <b>{{name}}</b></p>
+                        <p>Description: <b>{{description}}</b></p>
+                        <p>Amount: <b>{{amount}}</b></p>
+                        <p>Cost: <b>{{cost}}</b></p>
+                        <p>Type: <b>{{type}}</b></p>
                         <div id="avaibleAmount{{id}}" style="display: none">{{amount}}</div>
-                        <input id="amount{{id}}" name="amount" type="number" onchange="checkAmount(this)" disabled="true"/>
+                        <input id="amount{{id}}" style="width: 80%;" name="amount" type="number" onchange="checkAmount(this)" disabled="true"/>
                         <input id="attribute{{id}}" name="attributesId" type="checkbox" onchange="enableField(this)" value="{{id}}"/>
                         {{/.}}
                     </div>
                 {{/attributes}}
+
+            </div>
             </div>
             <script>showLocation()</script>
-            <input type="submit" value="Create"/>
         </form>
     </div>
 </body>

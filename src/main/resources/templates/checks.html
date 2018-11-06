@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Checks</title>
-
+    <link rel="stylesheet" href="/css/styles.css" type="text/css">
 </head>
 <body>
 {{>header}}
-<div class="solutions_border"><div></div></div>
+<div class="registration-div">
+    <div class="solutions_border"><div></div></div>
+
     {{#checks}}
-    {{#.}}
-            <h3>Date: {{dateOf}}</h3>
-            <h3>Settlement Number: {{settlementNumber}}</h3>
-            <h3>Name:{{#member}}{{firstName}} {{lastName}}{{/member}}</h3>
-            <h3>Total:{{total}}</h3>
-            <h3>Reconstruction: {{#reconstruction}}<a href="/reconstructions/{{id}}">{{name}}</a>{{/reconstruction}}</h3>
+        {{#.}}
+            <p>Date: <b>{{dateOf}}</b></p>
+            <p>Settlement Number: <b>{{settlementNumber}}</b></p>
+            <p>Name: <b>{{#member}}{{firstName}} {{lastName}}{{/member}}</b></p>
+            <p>Total: <b>{{total}}</b></p>
+            <p>Reconstruction: {{#reconstruction}}<a href="/reconstructions/{{id}}">{{name}}</a>{{/reconstruction}}</p>
         {{/.}}
     <div class="solutions_border"><div></div></div>
     {{/checks}}
+</div>
 </body>
 </html>

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Spring Security Example </title>
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/styles.css" type="text/css">
 </head>
 <body>
 {{>header}}
@@ -10,17 +11,25 @@
     Wrong e-mail or password!
 </label>
 {{/error}}
-<form action="/login" method="post">
-    <input name="{{_csrf.parameterName}}" type="hidden" value="{{_csrf.token}}"/>
-    <div>
-        <label> User Name :
-            <input id="username" type="email" name="username" value=""/>
-        </label>
+<div>
+    <form action="/login" method="post">
+        <input name="{{_csrf.parameterName}}" type="hidden" value="{{_csrf.token}}"/>
+        <div class="labeled-div">
+            <div>
+                <label> User Name :
+                    <input id="username" type="email" name="username" value="" placeholder="your@email.com"/>
+                </label>
+            </div>
+            <div>
+                <label> Password:
+                    <input id="password" type="password" name="password" value="" placeholder="Password"/>
+                </label>
+            </div>
+            <div><button type="submit" class="regular-button">Sign In</button></div>
+        </div>
+    </form>
+    <form action="/registration" method="get"><div class="registration-div"><button class="regular-button" type="submit">Sing Up?</button></div></form>
+</div>
 
-    </div>
-    <div><label> Password: <input id="password" type="password" name="password" value=""/> </label></div>
-    <div><input type="submit" value="Sign In"/></div>
-</form>
-<button><a href="./registration">Sing Up?</a></button>
 </body>
 </html>

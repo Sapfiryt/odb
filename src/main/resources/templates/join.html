@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Joined</title>
+    <link rel="stylesheet" href="/css/styles.css" type="text/css">
 </head>
 <body>
     {{>header}}
-    You were successfully joined to reconstruction!
-    <form name="backToRec" action="/reconstructions/{{recId}}" method="get">
-        <input type="submit">
-    </form>
+    <div class="registration-div">
+        <h3>You were successfully joined to reconstruction!</h3>
+        <form name="backToRec" action="/reconstructions/{{recId}}" method="get">
+            <button type="submit" class="regular-button" style="background-color: green; color: white">Join!</button>
+        </form>
+    </div>
 </body>
 </html>

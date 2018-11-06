@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Check</title>
+    <link rel="stylesheet" href="/css/styles.css" type="text/css">
 </head>
 <body>
     {{>header}}
+    <div class="registration-div">
     <div>
         {{#check}}
-            <h3>Date: {{dateOf}}</h3>
-            <h3>Settlement Number: {{settlementNumber}}</h3>
-            <h3>Name:{{#member}}{{firstName}} {{lastName}}{{/member}}</h3>
-            <h3>Total:{{total}}</h3>
+        <h3>Date: <b>{{dateOf}}</b></h3>
+            <h3>Settlement Number: <b>{{settlementNumber}}</b></h3>
+            <h3>Name: <b>{{#member}}{{firstName}} {{lastName}}{{/member}}</b></h3>
+            <h3>Total: <b>{{total}}</b></h3>
             <h3>Reconstruction: {{#reconstruction}}<a href="/reconstructions/{{id}}">{{name}}</a>{{/reconstruction}}</h3>
         {{/check}}
     </div>
-<form name="toReconstruction" action="/reconstructions/{{recId}}{{#joined}}/join{{/joined}}">
-    <input type="submit" value="Join!">
-</form>
+    <form name="toReconstruction" action="/reconstructions/{{recId}}{{#joined}}/join{{/joined}}">
+        <button type="submit" class="regular-button">Submit</button>
+    </form>
+    </div>
 </body>
 </html>

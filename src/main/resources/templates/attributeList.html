@@ -2,21 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Checks</title>
-
+    <title>Attributes</title>
+    <link rel="stylesheet" href="/css/styles.css" type="text/css">
 </head>
 <body>
 {{>header}}
-    <div class="solutions_border"><div></div></div>
-    {{#attributes}}
-        {{#.}}
-            <h3>Name:{{name}}</h3>
-            <h3>Description:{{description}}</h3>
-            <h3>Amount: {{amount}}</h3>
-            <h3>Cost: {{cost}}</h3>
-            <h3>Type: {{type}}</h3>
-        {{/.}}
-    <div class="solutions_border"><div></div></div>
-    {{/attributes}}
+
+    <div class="labeled-div">
+        {{#attributes}}
+            {{#.}}
+
+                <p>Name: <b>{{name}}</b></p>
+                <p>Description: <b>{{description}}</b></p>
+                <p>Amount: <b>{{amount}}</b></p>
+                <p>Cost: <b>{{cost}}</b></p>
+                <p>Type: <b>{{type}}</b></p>
+            {{/.}}
+            <div class="solutions_border"><div></div></div>
+        {{/attributes}}
+    </div>
 </body>
 </html>
