@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.Map;
+import java.util.function.Function;
 
 @Controller
 public class ReconstructionController {
@@ -39,12 +42,16 @@ public class ReconstructionController {
 
         Reconstruction rec = reconstructionRepository.findById(id).get();
         rec.getLocation().setImg(Base64.getEncoder().encodeToString(rec.getLocation().getPhoto()));
+
         rec.getAttributesInUse().forEach(attrInUse -> rec.getAttributes().stream()
                 .filter( attr -> attrInUse.getAttribute().equals(attr.getAttribute()))
                 .forEach( item -> item.setAmountOf(item.getAmountOf()-attrInUse.getAmount())));
 
+        model.put("attributes", rec.getAttributes().stream().filter(attr -> attr.getAmountOf()>0).toArray());
         model.put("reconstruction", rec);
         model.put("numberOfParticipant",rec.getParticipants().size());
+
+        model.put("dateOfReconstruction",rec.getDateOf().format(DateTimeFormatter.ofPattern("d MMMM yy  hh:mm a")));
 
 
         if(model.get("user")!=null&&rec.getParticipants().contains((User)model.get("user")))
@@ -71,4 +78,7 @@ public class ReconstructionController {
 
         return new ModelAndView("join", model);
     }
+
+
+
 }

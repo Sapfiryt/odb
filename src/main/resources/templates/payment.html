@@ -9,13 +9,13 @@
 <body>
     {{>header}}
     <div class="registration-div">
-        <h2>Cost of membership {{cost}}</h2>
+        <h2>Cost of membership: <b id="cost">{{cost}}</b></h2>
         <form id="creationForm" name="creationForm" action="/payment/{{reconstruction_id}}" method="post">
             <input name="{{_csrf.parameterName}}" type="hidden" value="{{_csrf.token}}"/>
             <div>
                 <label>
                     Sum:
-                    <input name="total" type="number" value="{{creationForm.name}}"/>
+                    <input id="total" name="total" type="number" value="" onchange="checkPayment(this)"/>
                 </label>
                 {{#errors}}
                 <label style="color: red">

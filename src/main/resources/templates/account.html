@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Account</title>
+    <link rel="stylesheet" href="/css/styles.css" type="text/css">
+</head>
+<body>
+    {{>header}}
+    <div class="columns">
+    <div class="registration-div ">
+        {{#reconstructions}}
+        <div id="reconstruction{{id}}" class="list-item" onclick="showAttributes(this)">
+            <h2>Name: {{name}}</h2>
+            <h2>Description: <p>{{about}}</p></h2>
+            <h3>Cost: {{cost}}</h3>
+            <form action="/reconstructions/{{id}}">
+                <button class="regular-button" type="submit">Details</button>
+            </form>
+        </div>
+
+        <div class="solutions_border"></div>
+        {{/reconstructions}}
+    </div>
+        <div class="list">
+            {{#user}}
+                {{#attributes}}
+                    <div class="list-item to-hide to-rec{{reconstruction.id}}" style="display:none;">
+                        <h2 class="reduce-margin">Name: {{attribute.name}}</h2>
+                        <h2 class="reduce-margin">Description: <p>{{attribute.description}}</p></h2>
+                        <h3 class="reduce-margin">Cost: {{attribute.cost}}</h3>
+                        <h3 class="reduce-margin">Amount: {{amount}}</h3>
+                        <div class="solutions_border"></div>
+                    </div>
+                {{/attributes}}
+            {{/user}}
+        </div>
+    </div>
+
+
+</body>
+</html>

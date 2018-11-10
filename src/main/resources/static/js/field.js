@@ -40,8 +40,12 @@ function getRealDisplay(elem) {
 
 function checkAmount(element){
     var avaible = document.getElementById('avaibleAmount'+element.id.substring('amount'.length));
-    if(element.value>avaible.innerText)
+    if(element.value>=avaible.innerText)
         element.value = avaible.innerText;
+    else if(element.value<0)
+        element.value
+    else
+        true;
 }
 
 function enableField(element) {
@@ -53,5 +57,34 @@ function enableField(element) {
     else {
         amount.disabled = true;
         amount.value = null;
+    }
+}
+
+function checkPayment(total){
+    var cost = document.getElementById("cost");
+    if(total.value>=cost.innerText){
+        total.value=cost.innerText;
+    }else if(total.value<0){
+        total.value=0;
+    }
+}
+
+function showAttributes(reconstructionDiv){
+    hideAll();
+    reconstructionDiv.classList.add("active");
+    var list = document.getElementsByClassName("to-rec"+reconstructionDiv.id.substring('reconstruction'.length));
+    for(var i=0; i<list.length; i++){
+        list[i].style.display='flex'
+    }
+}
+function hideAll() {
+
+    var list = document.getElementsByClassName("to-hide");
+    for(var i=0; i<list.length; i++){
+        list[i].style.display='none'
+    }
+    var list = document.getElementsByClassName("list-item");
+    for(var i=0; i<list.length; i++){
+        list[i].classList.remove("active")
     }
 }

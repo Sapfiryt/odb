@@ -1,5 +1,6 @@
 package com.timirlanyat.odb.dal.repositories;
 
+import com.timirlanyat.odb.model.Member;
 import com.timirlanyat.odb.model.Reconstruction;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -20,4 +21,7 @@ public interface ReconstructionRepository extends CrudRepository<Reconstruction,
                                             @Param("after") LocalDate after,
                                             @Param("befor") LocalDate befor,
                                             @Param("notFull") Boolean notFull);
+
+    @Query(value = "select rec from Reconstruction rec inner join rec.participants partis where partis = :user")
+    Iterable<Reconstruction> findByUser(@Param("user")Member user);
 }

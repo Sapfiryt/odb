@@ -1,8 +1,10 @@
 package com.timirlanyat.odb.controllers;
 
+import com.timirlanyat.odb.dal.entity.AttributesInReconstructions;
 import com.timirlanyat.odb.dal.repositories.AttributeRepository;
 import com.timirlanyat.odb.dal.repositories.LocationRepository;
 import com.timirlanyat.odb.dal.repositories.OrganizerRepository;
+import com.timirlanyat.odb.dal.repositories.ReconstructionRepository;
 import com.timirlanyat.odb.model.*;
 import com.timirlanyat.odb.services.ReconstructionService;
 import com.timirlanyat.odb.services.UserService;
@@ -29,6 +31,8 @@ import java.util.*;
 @Controller
 public class OrgnizerController {
 
+    @Autowired
+    private ReconstructionRepository reconstructionRepository;
     @Autowired
     private UserService userService;
     @Autowired
@@ -147,5 +151,15 @@ public class OrgnizerController {
         return new ModelAndView("redirect:/reconstructions/"+created.getId(), model);
     }
 
+    @RequestMapping(value="/reconstructions/{id}/attributes", method = {RequestMethod.GET})
+    public ModelAndView attributeList(@PathVariable("id") Integer id, Principal principal){
 
+        Map<String,Object> model = userService.getUserParameters(principal);
+
+        Reconstruction rec = reconstructionRepository.findById(id).get();
+
+        model.put("attributes",rec.getAttributes());
+
+        return new ModelAndView("recAttributeList",model);
+    }
 }

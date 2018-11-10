@@ -7,18 +7,36 @@
 </head>
 <body>
     {{>header}}
+    <div class="registration-div">
+        <div class="button-holder">
+            <form id="adminCreate" action="/admin/create/location" method="get">
+                <button type="submit" class="regular-button manager-button">Add Location</button>
+            </form>
+            <form id="locList" action="/admin/locations" method="get">
+                <button type="submit" class="regular-button manager-button">Location List</button>
+            </form>
+            <form id="adminCreateAttr" action="/admin/create/attribute" method="get">
+                <button type="submit" class="regular-button manager-button">Add Attribute</button>
+            </form>
+            <form id="attrList" action="/admin/attributes" method="get">
+                <button type="submit" class="regular-button manager-button">Attribute List</button>
+            </form>
+        </div>
+    </div>
     {{#notApproved}}
     <div>
         {{#.}}
-        <label>{{lastName}} {{firstName}}</label>
-        <label>{{email}} </label>
-        <label>{{phoneNumber}} </label>
-        <label>{{numAgreement}}</label>
-        <form id="creationForm" name="creationForm" action="/admin" method="post">
-            <input name="{{_csrf.parameterName}}" type="hidden" value="{{_csrf.token}}"/>
-            <input name="id" value="{{id}}" type="hidden"/>
-            <input type="submit" value="Approve"/>
-        </form>
+        <div class="registration-div">
+            <h3 class="reduce-margin">Name: <p>{{lastName}} {{firstName}}</p></h3>
+            <h3 class="reduce-margin">Email: <p>{{email}} </h3>
+            <h3 class="reduce-margin">Phone: <p>{{phoneNumber}}</p></h3>
+            <h3 class="reduce-margin">Agreement number: <p>{{numAgreement}}</p></h3>
+            <form id="creationForm" name="creationForm" action="/admin" method="post">
+                <input name="{{_csrf.parameterName}}" type="hidden" value="{{_csrf.token}}"/>
+                <input name="id" value="{{id}}" type="hidden"/>
+                <button type="submit" class="regular-button">Approve</button>
+            </form>
+        </div>
         {{/.}}
     </div>
     {{/notApproved}}

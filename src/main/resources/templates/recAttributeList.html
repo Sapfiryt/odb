@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Attributes</title>
+    <link rel="stylesheet" href="/css/styles.css" type="text/css">
+</head>
+<body>
+{{>header}}
+
+    <div class="labeled-div">
+        {{#attributes}}
+            {{#attribute}}
+
+                <p>Name: <b>{{name}}</b></p>
+                <p>Description: <b>{{description}}</b></p>
+                <p>Cost: <b>{{cost}}</b></p>
+                <p>Type: <b>{{type}}</b></p>
+            {{/attribute}}
+                <p>Amount: <b>{{amountOf}}</b></p>
+            <div class="solutions_border"><div></div></div>
+        {{/attributes}}
+    </div>
+</body>
+</html>

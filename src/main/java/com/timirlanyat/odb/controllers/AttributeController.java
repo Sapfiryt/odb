@@ -39,7 +39,6 @@ public class AttributeController {
     {
         Map<String,Object> model = userService.getUserParameters(principal);
         User user = (User) model.get("user");
-//        System.out.println(dto);
 
         Optional<Reconstruction> foundRec = reconstructionRepository.findById(dto.getReconstructionId());
 

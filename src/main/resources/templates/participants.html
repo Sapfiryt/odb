@@ -8,13 +8,16 @@
 <body>
     {{>header}}
     {{#participants}}
-        <div>
-            {{#member}}
-            <label>{{lastName}} {{firstName}}</label>
-            <label>{{email}} </label>
-            <label>{{phoneNumber}} </label>
-            {{/member}}
+        {{#.}}
+        <div class="registration-div">
+
+            <h3 class="reduce-margin">Name: <p>{{lastName}} {{firstName}}</p></h3>
+            <h3 class="reduce-margin">Email: <p>{{email}}</p></h3>
+            <h3 class="reduce-margin">Phone: <p>{{phoneNumber}}</p></h3>
+
         </div>
+        <div class="solutions_border"></div>
+        {{/.}}
     {{/participants}}
 </body>
 </html>

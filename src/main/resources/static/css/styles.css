@@ -19,11 +19,18 @@ h2>p{
     font-size: 18px;
     font-family: "Segoe UI",Arial,sans-serif;
     font-weight: normal;
+    display: block;
+}
+
+h3>p{
+    color: #3b3b3b;
+    display: inline-block;
 }
 
 form{
     height: 100%;
 }
+
 
 input[type=text], select, input[type=password], input[type=email], input[type=date], input[type=datetime-local], input[type=number]{
     width: 100%;
@@ -40,6 +47,7 @@ input[type=text], select, input[type=password], input[type=email], input[type=da
     height: 10px;
     border: 0 dashed black;
     border-bottom-width: 2px;
+    margin-bottom: 2px;
 }
 #header{
     position: fixed;
@@ -181,4 +189,66 @@ input[type=text], select, input[type=password], input[type=email], input[type=da
 .about{
     white-space: normal;
     word-break: break-all;
+}
+
+.reduce-margin{
+    margin: 2px 0px;
+}
+
+.list{
+    margin-top: 20px;
+    height: 600px;
+    position: fixed;
+    right: 50px;
+    width: calc(40% - 50px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: center;
+    overflow:auto;
+}
+.list-item{
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border: 2px solid transparent;
+    border-radius: 3px;
+}
+.active{
+    border: 2px solid green;
+    border-radius: 3px;
+    box-sizing: padding-box;
+}
+.location-list{
+    width: 90%;
+    min-width: 300px;
+    margin: 20px 40px auto;
+    padding: 9px 0;
+
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    flex-basis: 400px;
+}
+.search{
+    width: 100%;
+    background-color: #7b7e7d;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-content: flex-start;
+    flex-basis: auto;
+}
+.search> h3{
+    margin: 0 2px;
+    padding: 0 2px;
+    padding-top: 10px;
+    vertical-align: middle;
+    text-align: right;
+    font-size: 18px;
+    align-content: center;
+    justify-content: center
 }

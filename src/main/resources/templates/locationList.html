@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Locations</title>
+    <link rel="stylesheet" href="/css/styles.css" type="text/css">
+</head>
+<body>
+{{>header}}
+
+<div class="location-list">
+    {{#locations}}
+<div class="labeled-div photo-container" style="width: 400px">
+    <div>
+        <h2>Name: <p>{{name}}</p></h2>
+    </div>
+    <div style="justify-self: center;display: flex;justify-content: center;">
+        <img src="data:image/jpeg;base64,{{img}}" />
+    </div>
+    <div>
+        <h3 class="reduce-margin" >Address:<p>{{country}}, {{address}}</p></h3>
+    </div>
+</div>
+    {{/locations}}
+</div>
+</body>
+</html>

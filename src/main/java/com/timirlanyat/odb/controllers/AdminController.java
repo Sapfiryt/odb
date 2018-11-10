@@ -22,9 +22,7 @@ import javax.management.InvalidAttributeValueException;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class AdminController {
@@ -39,7 +37,8 @@ public class AdminController {
     private AttributeService attributeService;
     @Autowired
     private AttributeRepository attributeRepository;
-
+    @Autowired
+    private LocationRepository locationRepository;
 
     @RequestMapping(value={"/admin"}, method = RequestMethod.GET)
     public ModelAndView adminView(Principal principal) {
@@ -166,9 +165,23 @@ public class AdminController {
     public ModelAndView attributeList(Principal principal){
 
         Map<String,Object> model = userService.getUserParameters(principal);
-        model.put("creationForm",new AttributeDto());
         model.put("attributes",attributeRepository.findAll());
 
         return new ModelAndView("attributeList",model);
+    }
+
+    @RequestMapping(value={"/admin/locations"}, method = RequestMethod.GET)
+    public ModelAndView locationList(Principal principal){
+
+        Map<String,Object> model = userService.getUserParameters(principal);
+        List<Location> locations = new ArrayList<>();
+
+        for(Location loc: locationRepository.findAll()){
+            loc.setImg(Base64.getEncoder().encodeToString(loc.getPhoto()));
+            locations.add(loc);
+        }
+        model.put("locations",locations);
+
+        return new ModelAndView("locationList",model);
     }
 }

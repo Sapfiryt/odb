@@ -1,15 +1,14 @@
-<div style="background-color: aquamarine">
-    <ul>
+<div>
+
         {{#reconstructions}}
-        <li>
-            <div>
-                <label>{{name}}</label>
-                <h6>{{about}}</h6>
-                <form action="/reconstructions/{{id}}">
-                    <input type="submit" value="Ditails" />
-                </form>
+        <div class="rec-in-list" style=" background-color: #2c8600;">
+            <h3>{{name}}</h3>
+            <p>{{about}}</p>
+            <form action="/reconstructions/{{id}}">
+                <button type="submit" class="regular-button manager-button">Details</button>
+            </form>
             </div>
-        </li>
+        </div>
         {{/reconstructions}}
-    </ul>
+
 </div>

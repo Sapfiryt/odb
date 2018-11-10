@@ -26,7 +26,7 @@
                     </div>
                     <div>
                         <h2>Participants: <p>{{minParticipant}}/{{numberOfParticipant}}/{{maxParticipant}}</p></h2>
-                        <h2>Date: <p>{{dateOf}}</p></h2>
+                        <h2>Date: <p>{{dateOfReconstruction}}</p></h2>
                     </div>
                 </div>
             </div>
@@ -44,10 +44,6 @@
                 <label>Address:</label>
                 <h3>{{location.country}}, {{location.address}}</h3>
             </div>
-            <div>
-                <label>Date:</label>
-                <h3>{{dateOf}}</h3>
-            </div>
         </div>
         {{/reconstruction}}
         {{#managed}}
@@ -58,6 +54,10 @@
             <form action="/reconstructions/{{reconstruction.id}}/checks" method="get">
                 <button class="regular-button manager-button" type="submit">Checks</button>
             </form>
+            <form action="/reconstructions/{{reconstruction.id}}/attributes" method="get">
+                <button class="regular-button manager-button" type="submit">Attributes</button>
+            </form>
+
         </div>
         {{/managed}}
         </div>
@@ -71,24 +71,23 @@
                         {{#.}}
                             <div>
                                 {{#attribute}}
-                                <h3>Name:{{name}}</h3>
-                                <h3>Description:{{description}}</h3>
+                                <h3>Name: {{name}}</h3>
+                                <h3>Description: {{description}}</h3>
                                 <h3>Cost: {{cost}}</h3>
                                 <h3>Type: {{type}}</h3>
                                 {{/attribute}}
-                                <h3 id="avaibleAmount{{attribute.id}}">Amount:{{amountOf}}</h3>
+                                <h3 id="avaibleAmount{{attribute.id}}">Amount: {{amountOf}}</h3>
 
                                 <input id="amount{{attribute.id}}" style="width: 80%;" name="amount" type="number" onchange="checkAmount(this)" disabled="true"/>
                                 <input id="attribute{{attribute.id}}" name="attributesId" type="checkbox" onchange="enableField(this)" value="{{attribute.id}}"/>
                             </div>
                         {{/.}}
-                <button type="submit" class="regular-button">Submit</button>
                 {{/attributes}}
+                <button type="submit" class="regular-button">Submit</button>
 
             </form>
         </div>
     </div>
-
 
 </body>
 </html>

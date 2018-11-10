@@ -7,21 +7,27 @@
 </head>
 <body>
     {{>header}}
-    <div style="background-color: darkgray">
+    <div>
         <form name="search"  action="/search" method="get">
-            <label>
-                Cost: <input name="cost" type="text"/>
-            </label>
-            <label>
-                Not full: <input name="not_full" type="checkbox"/>
-            </label>
-            <label>
-                Befor: <input name="befor" type="date"/>
-            </label>
-            <label>
-                After: <input name="after" type="date"/>
-            </label>
-            <button type="submit">Search!</button>
+            <div class="search">
+                <h3>
+                    Cost up to:
+                </h3>
+                <input class="search-input" style="padding: 5px 2px;margin: 2px 3px; width: auto" name="cost" type="text"/>
+                <h3>
+                    Not full:
+                </h3>
+                <input class="search-input" style="align-self: center;" name="not_full" type="checkbox"/>
+                <h3>
+                    Befor:
+                </h3>
+                <input class="search-input" style="padding: 5px 2px;margin: 2px 3px; width: auto" name="befor" type="date"/>
+                <h3>
+                    After:
+                </h3>
+                <input class="search-input" style="padding: 5px 2px;margin: 2px 3px; width: auto" name="after" type="date"/>
+                <button type="submit" class="regular-button" style="margin: 0;">Search!</button>
+            </div>
         </form>
     </div>
     {{>searchRezult}}
