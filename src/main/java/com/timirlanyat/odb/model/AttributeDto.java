@@ -30,6 +30,5 @@ public class AttributeDto {
     String name;
 
     @NotNull
-    @NotEmpty
-    String type;
+    AttributeType type;
 }

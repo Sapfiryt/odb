@@ -13,4 +13,7 @@ public interface MemberRepository extends CrudRepository<Member,Integer> {
     @Query(value = "select u from Member u where lower(u.email) = lower(:email)")
     Member findByEmail(@Param("email") String email);
 
+    @Query(value = "select u from Member u where lower(u.phoneNumber) = lower(:phone)")
+    Member findByPhone(@Param("phone") String phone);
+
 }

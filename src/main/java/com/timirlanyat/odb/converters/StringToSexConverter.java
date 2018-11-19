@@ -13,9 +13,6 @@ public class StringToSexConverter
         if(source==null||source.length()==0)
             return null;
 
-        if(source.equals("Not specified"))
-            return Sex.NOT_SPECIFIED;
-
         return Sex.valueOf(source.toUpperCase());
     }
 }

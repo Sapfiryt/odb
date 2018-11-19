@@ -5,6 +5,7 @@ import com.timirlanyat.odb.dal.repositories.OrganizerRepository;
 import com.timirlanyat.odb.dal.repositories.MemberRepository;
 import com.timirlanyat.odb.exceptions.EmailExistsException;
 import com.timirlanyat.odb.model.*;
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,43 +31,46 @@ public class UserService {
 
     @Transactional
     public User registerNewUserAccount(UserDto accountDto)
-            throws EmailExistsException {
+            throws Exception, EmailExistsException {
 
         if (emailExist(accountDto.getEmail())) {
             throw new EmailExistsException(accountDto.getEmail());
         }
-
-        User user;
-
-        if (accountDto.getOrganizer()==null) {
-
-            user = new Member();
-            user.setFirstName(accountDto.getFirstName());
-            user.setLastName(accountDto.getLastName());
-            user.setEmail(accountDto.getEmail());
-            user.setPhoneNumber(accountDto.getPhoneNumber());
-            user.setDateOfBirth(accountDto.getDateOfBirth());
-            user.setSex(accountDto.getSex());
-            user.setAdmin(false);
-            user.setRoles(Arrays.asList("REC_MEMBER"));
-            user = memberRepository.save((Member)user);
-        }else{
-            Organizer org = new Organizer();
-            org.setFirstName(accountDto.getFirstName());
-            org.setLastName(accountDto.getLastName());
-            org.setEmail(accountDto.getEmail());
-            org.setPhoneNumber(accountDto.getPhoneNumber());
-            org.setDateOfBirth(accountDto.getDateOfBirth());
-            org.setSex(accountDto.getSex());
-            org.setAdmin(false);
-            org.setRoles(Arrays.asList("REC_MEMBER"));
-            org.setNumAgreement(accountDto.getAgreement());
-            org.setApproved(false);
-            user = (Member)organizerRepository.save(org);
+        if(phoneExist(accountDto.getPhoneNumber())){
+            throw new Exception(String.format("%s alredy exists.",accountDto.getPhoneNumber()));
         }
 
-        hashRepo.save(new Hash().setUser((Member)user)
-                .setHash(passwordEncoder.encode(accountDto.getPassword())));
+        User user = null;
+
+            if (accountDto.getOrganizer() == null) {
+
+                user = new Member();
+                user.setFirstName(accountDto.getFirstName());
+                user.setLastName(accountDto.getLastName());
+                user.setEmail(accountDto.getEmail());
+                user.setPhoneNumber(accountDto.getPhoneNumber());
+                user.setDateOfBirth(accountDto.getDateOfBirth());
+                user.setSex(accountDto.getSex());
+                user.setAdmin(false);
+                user.setRoles(Arrays.asList("REC_MEMBER"));
+                user = memberRepository.save((Member) user);
+            } else {
+                Organizer org = new Organizer();
+                org.setFirstName(accountDto.getFirstName());
+                org.setLastName(accountDto.getLastName());
+                org.setEmail(accountDto.getEmail());
+                org.setPhoneNumber(accountDto.getPhoneNumber());
+                org.setDateOfBirth(accountDto.getDateOfBirth());
+                org.setSex(accountDto.getSex());
+                org.setAdmin(false);
+                org.setRoles(Arrays.asList("REC_MEMBER"));
+                org.setNumAgreement(accountDto.getAgreement());
+                org.setApproved(false);
+                user = (Member) organizerRepository.save(org);
+            }
+
+            hashRepo.save(new Hash().setUser((Member) user)
+                    .setHash(passwordEncoder.encode(accountDto.getPassword())));
 
         return user;
 
@@ -87,6 +91,14 @@ public class UserService {
 
 
         return model;
+    }
+
+    private boolean phoneExist(String phone) {
+        User user = memberRepository.findByPhone(phone);
+        if (user != null) {
+            return true;
+        }
+        return false;
     }
 
     private boolean emailExist(String email) {

@@ -56,17 +56,13 @@
                 </label>
                 {{/errors}}
             </div>
-            <div>
-                <label>
-                    Type:
-                    <input name="type" type="text" value="{{creationForm.type}}"/>
+                <label> Sex:
+                    <select id="type" name="type">
+                        {{#types}}
+                        <option value="{{.}}">{{.}}</option>
+                        {{/types}}
+                    </select>
                 </label>
-                {{#errors}}
-                <label style="color: red">
-                    {{type}}
-                </label>
-                {{/errors}}
-            </div>
                 <button type="submit" class="regular-button">Create</button>
             </div>
 

@@ -1,26 +1,26 @@
 package com.timirlanyat.odb.converters;
 
-import com.timirlanyat.odb.model.Sex;
+import com.timirlanyat.odb.model.AttributeType;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 @Converter
-public class SexConverter implements AttributeConverter<Sex, String> {
+public class AttributeTypeConverter implements AttributeConverter<AttributeType, String> {
 
-    public String convertToDatabaseColumn(Sex value) {
+    public String convertToDatabaseColumn(AttributeType value) {
         if ( value == null )
             return null;
 
         return StringUtils.capitalize(value.name().toLowerCase());
     }
 
-    public Sex convertToEntityAttribute(String value) {
+    public AttributeType convertToEntityAttribute(String value) {
         if ( value == null || value.length()==0)
             return null;
 
 
-        return Sex.valueOf(value.toUpperCase());
+        return AttributeType.valueOf(value.toUpperCase());
     }
 }

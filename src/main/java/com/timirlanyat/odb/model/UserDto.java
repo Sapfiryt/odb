@@ -43,6 +43,7 @@ public class UserDto {
 
     @NotNull
     @NotEmpty
+    @Size(min = 6, max = 13)
     @ValidPhone
     private String phoneNumber;
 

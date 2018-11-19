@@ -41,6 +41,17 @@ public class ReconstructionController {
         Map<String,Object> model= userService.getUserParameters(principal);
 
         Reconstruction rec = reconstructionRepository.findById(id).get();
+
+        if(LocalDateTime.now().isAfter(rec.getDateOf())){
+            if(rec.getParticipants().size()<rec.getMinParticipant()||LocalDateTime.now().isAfter(rec.getDateOf().plusDays(1)))
+                rec.setStatus("closed");
+            else
+                rec.setStatus("in progress");
+
+            reconstructionRepository.save(rec);
+        }
+
+
         rec.getLocation().setImg(Base64.getEncoder().encodeToString(rec.getLocation().getPhoto()));
 
         rec.getAttributesInUse().forEach(attrInUse -> rec.getAttributes().stream()
@@ -54,7 +65,7 @@ public class ReconstructionController {
         model.put("dateOfReconstruction",rec.getDateOf().format(DateTimeFormatter.ofPattern("d MMMM yy  hh:mm a")));
 
 
-        if(model.get("user")!=null&&rec.getParticipants().contains((User)model.get("user")))
+        if(model.get("user")!=null&&rec.getParticipants().contains((User)model.get("user"))||!rec.getStatus().equals("open"))
             model.put("joined",true);
 
         if(model.get("organizer")!=null&&((Organizer)model.get("organizer")).getManagedReconstructions().contains(rec))
@@ -70,6 +81,9 @@ public class ReconstructionController {
 
         Reconstruction rec = reconstructionRepository.findById(id).get();
         rec.getParticipants().add((Member)model.get("user"));
+
+        if (rec.getParticipants().size()>=rec.getMaxParticipant())
+            rec.setStatus("recruitment closed");
 
         reconstructionRepository.save(rec);
 

@@ -1,5 +1,6 @@
 package com.timirlanyat.odb.model;
 
+import com.timirlanyat.odb.converters.AttributeTypeConverter;
 import com.timirlanyat.odb.dal.entity.AttributesInReconstructions;
 import com.timirlanyat.odb.dal.entity.AttributesInUse;
 import lombok.Getter;
@@ -28,7 +29,8 @@ public class Attribute {
     private String name;
 
     @Column(name = "type")
-    private String type;
+    @Convert(converter = AttributeTypeConverter.class)
+    private AttributeType type;
 
     @Column(name = "amount")
     private Integer amount;

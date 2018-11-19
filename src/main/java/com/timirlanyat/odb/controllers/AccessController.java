@@ -43,13 +43,11 @@ public class AccessController {
     private AuthenticationManager authenticationManager;
 
 
-    private User createUserAccount(UserDto accountDto) {
+    private User createUserAccount(UserDto accountDto) throws Exception {
         User registered = null;
-        try {
-            registered = service.registerNewUserAccount(accountDto);
-        } catch (EmailExistsException e) {
-            return null;
-        }
+
+        registered = service.registerNewUserAccount(accountDto);
+
         return registered;
     }
 
@@ -76,22 +74,25 @@ public class AccessController {
 
         model.put("errors",errors);
         model.put("sexes", Arrays.stream(Sex.values()).map((sex)->
-                StringUtils.capitalize(sex.name().toLowerCase().replace('_',' ')))
+                StringUtils.capitalize(sex.name().toLowerCase()))
                 .toArray());
 
         if(errs.hasErrors()){
             for(FieldError err:errs.getFieldErrors())
                 ((Map<String,String>)model.get("errors"))
-                        .put(err.getField(), StringUtils.capitalize(err.getDefaultMessage()
-                                .replace("null","empty")+"!")
-                        );
+                        .put(err.getField(), err.getDefaultMessage());
 
             for(ObjectError err:errs.getAllErrors())
                 if(!((Map<String,String>)model.get("errors")).values()
                         .contains(err.getDefaultMessage()))
                     ((Map<String,String>)model.get("errors"))
                             .put("passwordNotMatchedErr",err.getDefaultMessage());
+            Map<String,String> errrs = ((Map<String,String>)model.get("errors"));
+            for(String key:errrs.keySet()){
 
+                errrs.replace(key,StringUtils.capitalize(errrs.get(key).replace("null","empty")+"!"));
+            }
+            model.replace("errors",errrs);
             model.put("userNew",dto);
             return new ModelAndView("registration", model);
         }
@@ -99,12 +100,17 @@ public class AccessController {
 
         User registered = null;
 
-        registered = createUserAccount(dto);
+        try {
 
 
-        if (registered == null) {
+            registered = createUserAccount(dto);
+
+        }catch (EmailExistsException exp){
             ((Map<String,String>)model.get("errors"))
                     .put("emailError","Email already exists!");
+        }catch (Exception exp){
+            ((Map<String,String>)model.get("errors"))
+                    .put("phoneError","Phone already exists!");
         }
         if (!((Map<String,String>)model.get("errors")).isEmpty()) {
             model.put("newUser",dto);

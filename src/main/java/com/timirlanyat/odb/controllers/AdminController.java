@@ -117,6 +117,10 @@ public class AdminController {
     public ModelAndView createAttributeView(Principal principal){
 
         Map<String,Object> model = userService.getUserParameters(principal);
+        model.put("types", Arrays.stream(AttributeType.values()).map((type)->
+                StringUtils.capitalize(type.name().toLowerCase()))
+                .toArray());
+
         model.put("creationForm",new AttributeDto());
 
 
