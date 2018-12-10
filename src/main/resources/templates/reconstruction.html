@@ -47,7 +47,7 @@
         </div>
         {{/reconstruction}}
         {{#managed}}
-        <div style="display: flex;">
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-around">
             <form action="/reconstructions/{{reconstruction.id}}/participants" method="get">
                 <button class="regular-button manager-button"  type="submit">List of Participant</button>
             </form>
@@ -57,17 +57,20 @@
             <form action="/reconstructions/{{reconstruction.id}}/attributes" method="get">
                 <button class="regular-button manager-button" type="submit">Attributes</button>
             </form>
-
+            <h3> Доход: <p>{{profit}};</p></h3>
+            <h3> Среднея цена атрибутики<br> на одного участника: <p>{{average}};</p></h3>
         </div>
         {{/managed}}
         </div>
         <div class="registration-div">
-
+            {{#joined}}
+            {{#attributes}}
+            {{^closed}}
             <h2>Attributes</h2>
             <form name="attributesForm" action="/attributes/reserve" method="post">
                 <input name="{{_csrf.parameterName}}" type="hidden" value="{{_csrf.token}}"/>
                 <input type="hidden" name="reconstructionId" value="{{reconstruction.id}}">
-                {{#attributes}}
+
                         {{#.}}
                             <div>
                                 {{#attribute}}
@@ -82,10 +85,13 @@
                                 <input id="attribute{{attribute.id}}" name="attributesId" type="checkbox" onchange="enableField(this)" value="{{attribute.id}}"/>
                             </div>
                         {{/.}}
-                {{/attributes}}
+
                 <button type="submit" class="regular-button">Submit</button>
 
             </form>
+            {{/closed}}
+            {{/attributes}}
+            {{/joined}}
         </div>
     </div>
 

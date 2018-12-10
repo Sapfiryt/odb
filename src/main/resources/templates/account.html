@@ -8,7 +8,45 @@
 <body>
     {{>header}}
     <div class="columns">
+        <div class="registration-div">
+            <h3>First Name: {{user.firstName}}</h3>
+            <h3>Last Name: {{user.lastName}}</h3>
+            <h3>Phone: {{user.phoneNumber}}</h3>
+            <h3>Email: {{user.email}}</h3>
+
+        </div>
+        <div class="registration-div ">
+            <form id="editUser" name="editUser" action="/account/edit" method="POST">
+                <input name="{{_csrf.parameterName}}" type="hidden" value="{{_csrf.token}}"/>
+                <div class="registration-div">
+                    <div>
+                        <label> First Name:
+                            <input type="text" id="firstName" name="firstName" value=""/>
+                        </label>
+                        {{#errors}}
+                        <label style="color: red">
+                            {{firstName}}
+                        </label>
+                        {{/errors}}
+                    </div>
+                    <div>
+                        <label> Last Name:
+                            <input type="text" id="lastName" name="lastName" value=""/>
+                        </label>
+                        {{#errors}}
+                        <label style="color: red">
+                            {{lastName}}
+                        </label>
+                        {{/errors}}
+                    </div>
+                </div>
+                <div class="registration-div"><button type="submit" class="regular-button">Edit</button></div>
+            </form>
+        </div>
+    </div>
+    <div class="columns">
     <div class="registration-div ">
+
         {{#reconstructions}}
         <div id="reconstruction{{id}}" class="list-item" onclick="showAttributes(this)">
             <h2>Name: {{name}}</h2>
@@ -22,6 +60,7 @@
         <div class="solutions_border"></div>
         {{/reconstructions}}
     </div>
+
         <div class="list">
             {{#user}}
                 {{#attributes}}

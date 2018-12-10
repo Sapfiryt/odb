@@ -60,7 +60,7 @@ public class Reconstruction {
     @JoinColumn(name="location_id")
     private Location location;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Organizer.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Organizer.class, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "organizer_id")
     private Organizer organizer;
 

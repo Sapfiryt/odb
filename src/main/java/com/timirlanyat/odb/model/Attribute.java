@@ -43,12 +43,12 @@ public class Attribute {
 
     @OneToMany(mappedBy = "attribute",
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Set<AttributesInUse> members = new HashSet<>();
 
     @OneToMany(mappedBy = "attribute",
                 fetch = FetchType.LAZY,
-                cascade = CascadeType.ALL)
+                cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Set<AttributesInReconstructions> reconstructions= new HashSet<>();
 
     public Attribute(){}

@@ -1,12 +1,8 @@
 package com.timirlanyat.odb.controllers;
 
-import com.timirlanyat.odb.dal.repositories.OrganizerRepository;
+import com.timirlanyat.odb.dal.repositories.AttributeRepository;
 import com.timirlanyat.odb.dal.repositories.ReconstructionRepository;
-import com.timirlanyat.odb.dal.repositories.MemberRepository;
-import com.timirlanyat.odb.model.Member;
-import com.timirlanyat.odb.model.Organizer;
-import com.timirlanyat.odb.model.Reconstruction;
-import com.timirlanyat.odb.model.User;
+import com.timirlanyat.odb.model.*;
 import com.timirlanyat.odb.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +16,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.Map;
-import java.util.function.Function;
 
 @Controller
 public class ReconstructionController {
@@ -28,11 +23,10 @@ public class ReconstructionController {
     @Autowired
     private ReconstructionRepository reconstructionRepository;
     @Autowired
-    private MemberRepository memberRepository;
-    @Autowired
-    private OrganizerRepository organizerRepository;
+    private AttributeRepository attributeRepository;
     @Autowired
     private UserService userService;
+
 
 
     @RequestMapping(value="/reconstructions/{id}", method = {RequestMethod.GET})
@@ -54,22 +48,41 @@ public class ReconstructionController {
 
         rec.getLocation().setImg(Base64.getEncoder().encodeToString(rec.getLocation().getPhoto()));
 
-        rec.getAttributesInUse().forEach(attrInUse -> rec.getAttributes().stream()
+        if(!rec.getStatus().equals("closed"))
+            rec.getAttributesInUse().forEach(attrInUse -> rec.getAttributes().stream()
                 .filter( attr -> attrInUse.getAttribute().equals(attr.getAttribute()))
                 .forEach( item -> item.setAmountOf(item.getAmountOf()-attrInUse.getAmount())));
+        else {
+            rec.getAttributes().forEach( aIR -> {
+                reconstructionRepository.returnAttributes(aIR.getAmountOf(),rec.getId(),aIR.getAttribute().getId());
+            });
+        }
 
-        model.put("attributes", rec.getAttributes().stream().filter(attr -> attr.getAmountOf()>0).toArray());
         model.put("reconstruction", rec);
         model.put("numberOfParticipant",rec.getParticipants().size());
 
         model.put("dateOfReconstruction",rec.getDateOf().format(DateTimeFormatter.ofPattern("d MMMM yy  hh:mm a")));
 
 
-        if(model.get("user")!=null&&rec.getParticipants().contains((User)model.get("user"))||!rec.getStatus().equals("open"))
-            model.put("joined",true);
+        if(!rec.getStatus().equals("open"))
+            model.put("joined", true);
 
-        if(model.get("organizer")!=null&&((Organizer)model.get("organizer")).getManagedReconstructions().contains(rec))
+        if(!rec.getStatus().equals("open")||!rec.getStatus().equals("recruitment closed"))
+            model.put("closed", true);
+
+        if(model.get("user")!=null&&rec.getParticipants().contains((User)model.get("user"))) {
+            model.put("attributes", rec.getAttributes().stream().filter(attr -> attr.getAmountOf() > 0).toArray());
+            model.put("joined", true);
+        }
+
+        Organizer org = (Organizer)model.get("organizer");
+
+        if(model.get("organizer")!=null&&org.getManagedReconstructions().contains(rec)){
             model.put("managed",true);
+            model.put("profit", reconstructionRepository.totalProfit(org.getId(),id));
+            model.put("average", reconstructionRepository.averageAttributesCost(id));
+        }
+
 
         return new ModelAndView("reconstruction",model);
     }

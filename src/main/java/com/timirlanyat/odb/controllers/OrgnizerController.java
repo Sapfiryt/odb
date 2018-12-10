@@ -156,6 +156,7 @@ public class OrgnizerController {
 
         Map<String,Object> model = userService.getUserParameters(principal);
 
+
         Reconstruction rec = reconstructionRepository.findById(id).get();
 
         model.put("attributes",rec.getAttributes());

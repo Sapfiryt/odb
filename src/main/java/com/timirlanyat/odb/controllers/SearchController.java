@@ -58,6 +58,7 @@ public class SearchController  {
         if(befor!=null && !befor.equals("")) {
             String[] parted = ((String) befor).split("-");
             befor = LocalDate.of(new Integer(parted[0]),new Integer(parted[1]),new Integer(parted[2]));
+            after=LocalDate.of(2000,01,01);
         }else{
             befor = LocalDate.of(2200,12,31);
         }
@@ -68,7 +69,6 @@ public class SearchController  {
         reconstrRepo.findAllByParams((Long)cost,(LocalDate) after,(LocalDate) befor, notFull)
                 .forEach(reconstructions::add);
 
-        ((Member)model.get("user")).getRoles().forEach(System.out::println);
 
         model.put("reconstructions",reconstructions);
 

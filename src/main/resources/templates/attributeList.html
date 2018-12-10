@@ -17,6 +17,11 @@
                 <p>Amount: <b>{{amount}}</b></p>
                 <p>Cost: <b>{{cost}}</b></p>
                 <p>Type: <b>{{type}}</b></p>
+                <form id="deleteAttribute" name="deleteUser" action="/admin/attributes/delete" method="post">
+                    <input name="{{_csrf.parameterName}}" type="hidden" value="{{_csrf.token}}"/>
+                    <input name="id" type="hidden" value="{{id}}"/>
+                    <button type="submit" style="background-color: red; color: white" class="regular-button">Delete</button>
+                </form>
             {{/.}}
             <div class="solutions_border"><div></div></div>
         {{/attributes}}

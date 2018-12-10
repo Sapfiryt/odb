@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/", "/home","/registration","/js/**","/css/**","/login").permitAll()
                     .antMatchers("/search","/attributes/reserve").hasAuthority("REC_MEMBER")
                     .antMatchers("/organizer/reconstructions","/organizer/create","/reconstructions/**/participants").hasAuthority("REC_ORG")
-                    .antMatchers("/admin","/admin/create").hasAuthority("ADMIN")
+                    .antMatchers("/admin","/admin/create","/attributes/delete").hasAuthority("ADMIN")
                     .anyRequest()
                     .authenticated()
                 .and()

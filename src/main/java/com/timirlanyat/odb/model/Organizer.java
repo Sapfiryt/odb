@@ -25,7 +25,8 @@ public class Organizer extends Member {
     private Boolean approved;
 
     @OneToMany(
-            cascade = CascadeType.ALL,
+            orphanRemoval = false,
+            cascade = CascadeType.PERSIST,
             fetch = FetchType.LAZY,
             mappedBy = "organizer"
     )

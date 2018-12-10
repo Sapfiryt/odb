@@ -54,7 +54,7 @@ public class Member implements User {
     private LocalDate dateOfBirth;
 
     @ManyToMany(
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.DETACH,
             fetch = FetchType.LAZY,
             mappedBy = "participants"
     )
@@ -62,7 +62,7 @@ public class Member implements User {
 
     @OneToMany(mappedBy = "member",
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+            cascade = CascadeType.REMOVE)
     private Set<AttributesInUse> attributes= new HashSet<>();
 
     @Column(name = "admin")

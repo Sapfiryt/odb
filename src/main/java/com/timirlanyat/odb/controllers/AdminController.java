@@ -3,6 +3,7 @@ package com.timirlanyat.odb.controllers;
 import com.timirlanyat.odb.dal.repositories.AttributeRepository;
 import com.timirlanyat.odb.dal.repositories.LocationRepository;
 import com.timirlanyat.odb.dal.repositories.OrganizerRepository;
+import com.timirlanyat.odb.dal.repositories.ReconstructionRepository;
 import com.timirlanyat.odb.model.*;
 import com.timirlanyat.odb.services.AttributeService;
 import com.timirlanyat.odb.services.LocationService;
@@ -39,6 +40,8 @@ public class AdminController {
     private AttributeRepository attributeRepository;
     @Autowired
     private LocationRepository locationRepository;
+    @Autowired
+    private ReconstructionRepository reconstructionRepository;
 
     @RequestMapping(value={"/admin"}, method = RequestMethod.GET)
     public ModelAndView adminView(Principal principal) {
@@ -187,5 +190,17 @@ public class AdminController {
         model.put("locations",locations);
 
         return new ModelAndView("locationList",model);
+    }
+
+    @RequestMapping(value={"/admin/attributes/delete"}, method = RequestMethod.POST)
+    public ModelAndView delete(Principal principal, @RequestParam("id") Integer id) {
+
+        List<Reconstruction> recs = new ArrayList<>();
+        reconstructionRepository.findAll().forEach(recs::add);
+
+        attributeRepository.deleteById(id);
+
+
+        return new ModelAndView("redirect:/admin/attributes");
     }
 }
