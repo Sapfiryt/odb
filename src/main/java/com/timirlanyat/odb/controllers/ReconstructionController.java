@@ -67,7 +67,7 @@ public class ReconstructionController {
         if(!rec.getStatus().equals("open"))
             model.put("joined", true);
 
-        if(!rec.getStatus().equals("open")||!rec.getStatus().equals("recruitment closed"))
+        if(rec.getStatus().equals("closed")||rec.getStatus().equals("in progress"))
             model.put("closed", true);
 
         if(model.get("user")!=null&&rec.getParticipants().contains((User)model.get("user"))) {
@@ -79,8 +79,10 @@ public class ReconstructionController {
 
         if(model.get("organizer")!=null&&org.getManagedReconstructions().contains(rec)){
             model.put("managed",true);
-            model.put("profit", reconstructionRepository.totalProfit(org.getId(),id));
-            model.put("average", reconstructionRepository.averageAttributesCost(id));
+            model.put("profit", reconstructionRepository.totalProfit(org.getId(),id)==null?0:
+                    reconstructionRepository.totalProfit(org.getId(),id));
+            model.put("average", reconstructionRepository.averageAttributesCost(id)==null?0:
+                    reconstructionRepository.averageAttributesCost(id));
         }
 
 

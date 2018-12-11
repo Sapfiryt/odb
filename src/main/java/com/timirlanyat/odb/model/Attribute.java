@@ -41,15 +41,19 @@ public class Attribute {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "attribute",
+    @OneToMany(
+            mappedBy = "attribute",
             fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Set<AttributesInUse> members = new HashSet<>();
 
-    @OneToMany(mappedBy = "attribute",
+    @OneToMany(
                 fetch = FetchType.LAZY,
                 cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Set<AttributesInReconstructions> reconstructions= new HashSet<>();
+
+    @Transient
+    private boolean cannotDelete = false;
 
     public Attribute(){}
 }

@@ -1,6 +1,7 @@
 package com.timirlanyat.odb.model;
 
 
+import com.timirlanyat.odb.annotation.ParticipantsLimit;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,6 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@ParticipantsLimit
 public class ReconstructionDto {
 
     @NotNull
@@ -47,10 +49,9 @@ public class ReconstructionDto {
     @NotNull
     private Integer locationId;
 
-    @NotNull
+
     private List<Integer> attributesId;
 
-    @NotNull
     private List<Integer> amount;
 
 

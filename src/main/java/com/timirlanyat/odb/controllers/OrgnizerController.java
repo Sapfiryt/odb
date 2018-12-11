@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -116,13 +117,21 @@ public class OrgnizerController {
 
 
         if(errs.hasErrors()){
-            for(FieldError err:errs.getFieldErrors())
-                ((Map<String,String>)model.get("errors"))
-                        .put(err.getField(),
-                                StringUtils.capitalize(err.getDefaultMessage()
-                                        .replace("null","empty")
-                                )
-                        );
+            for(ObjectError err:errs.getAllErrors())
+                if(err instanceof FieldError)
+                    ((Map<String,String>)model.get("errors"))
+                            .put(((FieldError)err).getField(),
+                                    StringUtils.capitalize(err.getDefaultMessage()
+                                            .replace("null","empty")
+                                    )
+                            );
+                else
+                    ((Map<String,String>)model.get("errors"))
+                            .put(err.getCode(),
+                                    StringUtils.capitalize(err.getDefaultMessage()
+                                            .replace("null","empty")
+                                    )
+                            );
 
             model.put("creationForm",dto);
             return new ModelAndView("createRec", model);

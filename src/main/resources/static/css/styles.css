@@ -252,3 +252,12 @@ input[type=text], select, input[type=password], input[type=email], input[type=da
     align-content: center;
     justify-content: center
 }
+
+.delete-button{
+    background-color: red;
+    color: white;
+}
+
+.delete-button:disabled{
+    background-color: gray;
+}

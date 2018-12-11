@@ -8,6 +8,7 @@ import com.timirlanyat.odb.model.*;
 import com.timirlanyat.odb.services.AttributeService;
 import com.timirlanyat.odb.services.LocationService;
 import com.timirlanyat.odb.services.UserService;
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -172,7 +173,22 @@ public class AdminController {
     public ModelAndView attributeList(Principal principal){
 
         Map<String,Object> model = userService.getUserParameters(principal);
-        model.put("attributes",attributeRepository.findAll());
+
+        List<Attribute> attrs = new ArrayList<>();
+        attributeRepository.findAll().forEach(attrs::add);
+        List<Reconstruction> recs = new ArrayList<>();
+        reconstructionRepository.findAll().forEach(recs::add);
+
+        for(Reconstruction rec:recs)
+            for(Attribute attr:attrs)
+                rec.getAttributes().forEach( air -> {
+                    if(air.getAttribute().equals(attr)) attr.setCannotDelete(true);
+                });
+
+
+
+
+        model.put("attributes", attrs);
 
         return new ModelAndView("attributeList",model);
     }
@@ -195,10 +211,9 @@ public class AdminController {
     @RequestMapping(value={"/admin/attributes/delete"}, method = RequestMethod.POST)
     public ModelAndView delete(Principal principal, @RequestParam("id") Integer id) {
 
-        List<Reconstruction> recs = new ArrayList<>();
-        reconstructionRepository.findAll().forEach(recs::add);
 
         attributeRepository.deleteById(id);
+
 
 
         return new ModelAndView("redirect:/admin/attributes");
